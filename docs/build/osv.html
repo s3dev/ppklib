@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>osv.py - Wrappers for querying the OSV API &mdash; ppklib - v0.1.0b1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/css/s5defs-rules.css?v=0345028d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pypi.py - Wrappers for querying the PyPI APIs" href="pypi.html" />
+    <link rel="prev" title="pip.py - Wrappers for various pip-based commands" href="pip.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ppklib
+              <img src="_static/s3dev_tri_white_sm.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library.html">Library API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pip.html">pip.py - Wrappers for various pip-based commands</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">osv.py - Wrappers for querying the OSV API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ppklib.osv.OSVQuery"><code class="docutils literal notranslate"><span class="pre">OSVQuery</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.osv.OSVQuery.vulnerabilities"><code class="docutils literal notranslate"><span class="pre">OSVQuery.vulnerabilities()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pypi.html">pypi.py - Wrappers for querying the PyPI APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vtests.html">vtests.py - Vulnerability testing functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libs_utilities.html">Lib: utilities.py - Private internal utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_pypiapiobject.html">Object: pypiapiobject.py - Object for querying the PyPI JSON API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_osvapiobject.html">Object: osvapiobject.py - Object for querying the OSV API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_severitycountsobject.html">Object: severitycountsobject.py - Object container for severity counts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libs_changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ppklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library.html">Library API Documentation</a></li>
+      <li class="breadcrumb-item active">osv.py - Wrappers for querying the OSV API</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ppklib.osv">
+<span id="osv-py-wrappers-for-querying-the-osv-api"></span><h1>osv.py - Wrappers for querying the OSV API<a class="headerlink" href="#module-ppklib.osv" title="Link to this heading"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">Purpose<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This module provides functionality for collecting
+vulnerability metrics from
+<a class="reference external" href="https://google.github.io/osv.dev/">Open Source Vulnerabilities</a> (OSV); specifically,
+through the OSV API.</p>
+</dd>
+<dt class="field-even">Platform<span class="colon">:</span></dt>
+<dd class="field-even"><p>Linux/Windows | Python 3.8+</p>
+</dd>
+<dt class="field-odd">Developer<span class="colon">:</span></dt>
+<dd class="field-odd"><p>J Berendt</p>
+</dd>
+<dt class="field-even">Email<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="mailto:development&#37;&#52;&#48;s3dev&#46;uk">development<span>&#64;</span>s3dev<span>&#46;</span>uk</a></p>
+</dd>
+<dt class="field-odd">References<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The following links provide the requirements (specification)
+on which this module’s logic and API interactions are based:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://google.github.io/osv.dev/api/">OSV API</a></p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt class="field-even">Comments<span class="colon">:</span></dt>
+<dd class="field-even"><p>n/a</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="ppklib.osv.OSVQuery">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OSVQuery</span></span><a class="reference internal" href="_modules/ppklib/osv.html#OSVQuery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.osv.OSVQuery" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for querying the OSV API.</p>
+<dl class="field-list">
+<dt class="field-odd">Examples<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Query a project’s vulnerabilities via the OSV API, for a
+specific version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib</span> <span class="kn">import</span> <span class="n">OSVQuery</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oquery</span> <span class="o">=</span> <span class="n">OSVQuery</span><span class="o">.</span><span class="n">vulnerabilities</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;numpy&#39;</span><span class="p">,</span>
+<span class="go">                                      version=&#39;1.20.0&#39;)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Inspect the retrieved vulnerabilities.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oquery</span><span class="o">.</span><span class="n">vulns</span>
+<span class="go">[{&#39;id&#39;: &#39;GHSA-6p56-wp2h-9hxr&#39;,</span>
+<span class="go">  &#39;summary&#39;: &#39;NumPy Buffer Overflow (Disputed)&#39;,</span>
+<span class="go">  &#39;aliases&#39;: [&#39;CVE-2021-33430&#39;, &#39;PYSEC-2021-854&#39;],</span>
+<span class="go">  &#39;published&#39;: &#39;2022-01-07T00:09:39Z&#39;,</span>
+<span class="go">  &#39;modified&#39;: &#39;2024-09-26T15:01:21.525444Z&#39;,</span>
+<span class="go">  &#39;severity&#39;: &#39;MODERATE&#39;,</span>
+<span class="go">  &#39;vectors&#39;: [{&#39;CVSS_V3&#39;: &#39;CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H&#39;},</span>
+<span class="go">   {&#39;CVSS_V4&#39;: &#39;CVSS:4.0/AV:N/AC:H/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N&#39;}]},</span>
+<span class="go"> {&#39;id&#39;: &#39;GHSA-fpfv-jqm9-f5jm&#39;,</span>
+<span class="go">  &#39;summary&#39;: &#39;Incorrect Comparison in NumPy&#39;,</span>
+<span class="go">  &#39;aliases&#39;: [&#39;CVE-2021-34141&#39;, &#39;PYSEC-2021-855&#39;],</span>
+<span class="go">  &#39;published&#39;: &#39;2021-12-18T00:00:41Z&#39;,</span>
+<span class="go">  &#39;modified&#39;: &#39;2023-11-08T04:06:07.388275Z&#39;,</span>
+<span class="go">  &#39;severity&#39;: &#39;MODERATE&#39;,</span>
+<span class="go">  &#39;vectors&#39;: [{&#39;CVSS_V3&#39;: &#39;CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L&#39;}]}]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.osv.OSVQuery.vulnerabilities">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vulnerabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wheel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject" title="ppklib.objects.osvapiobject.OSVAPIObject"><span class="pre">OSVAPIObject</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ppklib/osv.html#OSVQuery.vulnerabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.osv.OSVQuery.vulnerabilities" title="Link to this definition"></a></dt>
+<dd><p>Query a project’s vulnerabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the project to be queried.
+Defaults to None.</p></li>
+<li><p><strong>version</strong> (<em>str</em><em>, </em><em>optional</em>) – Return vulnerabilities specific to
+this version. Defaults to None.</p></li>
+<li><p><strong>wheel</strong> (<em>str</em><em>, </em><em>optional</em>) – Return version specific
+vulnerabilities. Passing only this argument performs the
+same query as providing both the <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code>
+arguments. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ol class="arabic">
+<li><p>If only the <code class="docutils literal notranslate"><span class="pre">name</span></code> argument is provided, all
+vulnerabilities for the project are queried. <em>However</em>, as
+pagination is <em>not</em> automatically implemented, the actual
+response may be more than what is returned on the first
+page.</p>
+<p>It is recommended to narrow the search to a specific
+version. Keep reading …</p>
+</li>
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> arguments are provided,
+only the vulnerabilities specific to this version are
+returned.</p></li>
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">wheel</span></code> argument is used, this performs the same
+query as providing both the <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code>
+arguments. (<strong>Preferred</strong>)</p>
+<p>This is the preferred method because if only the wheel
+filename is provided, the package name and version are
+parsed from the filename - this enables a simple function
+call with only a single argument (the wheel filename).</p>
+</li>
+</ol>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object containing the project
+vulnerability details, per OSV. On error, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject" title="ppklib.objects.osvapiobject.OSVAPIObject">OSVAPIObject</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pip.html" class="btn btn-neutral float-left" title="pip.py - Wrappers for various pip-based commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pypi.html" class="btn btn-neutral float-right" title="pypi.py - Wrappers for querying the PyPI APIs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

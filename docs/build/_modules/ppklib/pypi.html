@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ppklib.pypi &mdash; ppklib - v0.1.0b1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/s5defs-rules.css?v=0345028d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ppklib
+              <img src="../../_static/s3dev_tri_white_sm.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../library.html">Library API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs_changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact Us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ppklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ppklib.pypi</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ppklib.pypi</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:Purpose:   This module provides functionality for interacting with PyPI,</span>
+<span class="sd">            specifically, the Index and JSON APIs.</span>
+
+<span class="sd">:Platform:  Linux/Windows | Python 3.8+</span>
+<span class="sd">:Developer: J Berendt</span>
+<span class="sd">:Email:     development@s3dev.uk</span>
+
+<span class="sd">:References:</span>
+
+<span class="sd">            The following links provide the requirements (specification)</span>
+<span class="sd">            on which this module&#39;s logic and API interactions are based:</span>
+
+<span class="sd">                - `PyPI Index API &lt;indexapi_&gt;`_</span>
+<span class="sd">                - `PyPI JSON API &lt;jsonapi_&gt;`_</span>
+
+<span class="sd">:Comments:  n/a</span>
+
+<span class="sd">            .. _indexapi: https://docs.pypi.org/api/index-api/</span>
+<span class="sd">            .. _jsonapi: https://docs.pypi.org/api/json/</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">utils4.user_interface</span> <span class="kn">import</span> <span class="n">ui</span>
+<span class="c1"># locals</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.objects.pypiapiobject</span> <span class="kn">import</span> <span class="n">PyPIAPIObject</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">objects.pypiapiobject</span> <span class="kn">import</span> <span class="n">PyPIAPIObject</span>
+
+
+<div class="viewcode-block" id="PyPIQuery">
+<a class="viewcode-back" href="../../pypi.html#ppklib.pypi.PyPIQuery">[docs]</a>
+<span class="k">class</span> <span class="nc">PyPIQuery</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for handling PyPI project queries.</span>
+
+<span class="sd">    :Examples:</span>
+
+<span class="sd">        Query a project&#39;s latest metadata from PyPI::</span>
+
+<span class="sd">            &gt;&gt;&gt; from ppklib import PyPIQuery</span>
+
+<span class="sd">            &gt;&gt;&gt; pquery = PyPIQuery.metadata(&#39;utils4&#39;)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Inspect the retrieved data.</span>
+<span class="sd">            &gt;&gt;&gt; pquery.data</span>
+<span class="sd">            {&#39;author&#39;: None,</span>
+<span class="sd">             &#39;author_email&#39;: &#39;The Developers &lt;development@s3dev.uk&gt;&#39;,</span>
+<span class="sd">             &#39;name&#39;: &#39;utils4&#39;,</span>
+<span class="sd">             &#39;summary&#39;: &#39;A general utilities package for Python 3.7+.&#39;,</span>
+<span class="sd">             &#39;requires_dist&#39;: [&#39;colorama&#39;],</span>
+<span class="sd">             &#39;version&#39;: &#39;1.7.0&#39;,</span>
+<span class="sd">             &#39;latest_version&#39;: &#39;1.7.0&#39;}</span>
+
+
+<span class="sd">        Query the metadata which is *specific to a release*, from PyPI::</span>
+
+<span class="sd">            &gt;&gt;&gt; from ppklib import PyPIQuery</span>
+
+<span class="sd">            &gt;&gt;&gt; pquery = PyPIQuery.metadata(wheel=&#39;utils4-1.7.0-cp312-cp312-win_amd64.whl&#39;)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Inspect the retrieved data.</span>
+<span class="sd">            &gt;&gt;&gt; pquery.data</span>
+<span class="sd">            {&#39;author&#39;: None,</span>
+<span class="sd">             &#39;author_email&#39;: &#39;The Developers &lt;development@s3dev.uk&gt;&#39;,</span>
+<span class="sd">             &#39;name&#39;: &#39;utils4&#39;,</span>
+<span class="sd">             &#39;summary&#39;: &#39;A general utilities package for Python 3.7+.&#39;,</span>
+<span class="sd">             &#39;requires_dist&#39;: [&#39;colorama&#39;],</span>
+<span class="sd">             &#39;version&#39;: &#39;1.7.0&#39;,</span>
+<span class="sd">             &#39;yanked&#39;: False,</span>
+<span class="sd">             &#39;yanked_reason&#39;: None,</span>
+<span class="sd">             &#39;filename&#39;: &#39;utils4-1.7.0-cp312-cp312-win_amd64.whl&#39;,</span>
+<span class="sd">             &#39;md5_digest&#39;: &#39;c8e0b67399cedb52ade57a2d33f52fe6&#39;,</span>
+<span class="sd">             &#39;python_version&#39;: &#39;cp312&#39;,</span>
+<span class="sd">             &#39;packagetype&#39;: &#39;bdist_wheel&#39;,</span>
+<span class="sd">             &#39;requires_python&#39;: &#39;&gt;=3.7&#39;,</span>
+<span class="sd">             &#39;upload_time_iso_8601&#39;: &#39;2025-01-04T17:13:14.409585Z&#39;,</span>
+<span class="sd">             &#39;vulnerabilities&#39;: [],</span>
+<span class="sd">             &#39;latest_version&#39;: &#39;1.7.0&#39;}</span>
+
+
+<span class="sd">        Query the metadata which is *specific to a release*, from PyPI</span>
+<span class="sd">        (for a project with reported vulnerabilities)::</span>
+
+<span class="sd">            &gt;&gt;&gt; from ppklib import PyPIQuery</span>
+
+<span class="sd">            &gt;&gt;&gt; wheel = &#39;numpy-1.20.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl&#39;</span>
+<span class="sd">            &gt;&gt;&gt; pquery = PyPIQuery.metadata(wheel=wheel)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Inspect the reported vulnerabilities. (Example details have been truncated.)</span>
+<span class="sd">            &gt;&gt;&gt; pquery.vulns</span>
+<span class="sd">            [{&#39;aliases&#39;: [&#39;CVE-2021-33430&#39;],</span>
+<span class="sd">              &#39;details&#39;: &#39;A Buffer Overflow vulnerability exists in NumPy 1.9.x in the ...&#39;,</span>
+<span class="sd">              &#39;fixed_in&#39;: [&#39;1.21&#39;],</span>
+<span class="sd">              &#39;id&#39;: &#39;GHSA-6p56-wp2h-9hxr&#39;,</span>
+<span class="sd">              &#39;link&#39;: &#39;https://osv.dev/vulnerability/GHSA-6p56-wp2h-9hxr&#39;,</span>
+<span class="sd">              &#39;source&#39;: &#39;osv&#39;,</span>
+<span class="sd">              &#39;summary&#39;: None,</span>
+<span class="sd">              &#39;withdrawn&#39;: None},</span>
+<span class="sd">             {&#39;aliases&#39;: [&#39;CVE-2021-34141&#39;],</span>
+<span class="sd">              &#39;details&#39;: &#39;Incomplete string comparison in the numpy.core component in ...&#39;,</span>
+<span class="sd">              &#39;fixed_in&#39;: [&#39;1.22&#39;],</span>
+<span class="sd">              &#39;id&#39;: &#39;GHSA-fpfv-jqm9-f5jm&#39;,</span>
+<span class="sd">              &#39;link&#39;: &#39;https://osv.dev/vulnerability/GHSA-fpfv-jqm9-f5jm&#39;,</span>
+<span class="sd">              &#39;source&#39;: &#39;osv&#39;,</span>
+<span class="sd">              &#39;summary&#39;: None,</span>
+<span class="sd">              &#39;withdrawn&#39;: None}]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PyPIQuery.metadata">
+<a class="viewcode-back" href="../../pypi.html#ppklib.pypi.PyPIQuery.metadata">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">*</span><span class="p">,</span>
+                 <span class="n">version</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">wheel</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyPIAPIObject</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query a project&#39;s metadata.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str, optional): Name of the project to be queried.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            version (str, optional): Return metadata specific to this</span>
+<span class="sd">                version. Defaults to None.</span>
+<span class="sd">            wheel (str, optional): Return release metadata specific to</span>
+<span class="sd">                this wheel file. Defaults to None.</span>
+
+<span class="sd">        .. tip::</span>
+
+<span class="sd">            1) If only the ``name`` argument is provided, only the</span>
+<span class="sd">               top-level metadata will be queried, for the *latest*</span>
+<span class="sd">               version.</span>
+
+<span class="sd">            2) If the ``name`` and ``version`` arguments are provided,</span>
+<span class="sd">               only the top-level metadata will be queried, for the</span>
+<span class="sd">               specific version.</span>
+
+<span class="sd">            3) However, if *all three* parameters are provided (or the</span>
+<span class="sd">               only the wheel filename), the version-specific release</span>
+<span class="sd">               metadata will be returned. (**Preferred**)</span>
+
+<span class="sd">               This is the preferred method because if only the wheel</span>
+<span class="sd">               filename is provided, the package name and version are</span>
+<span class="sd">               parsed from the filename - this enables a simple function</span>
+<span class="sd">               call with only a single argument (the wheel filename).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PyPIAPIObject | None : Object containing the project metadata</span>
+<span class="sd">            from PyPI. On error, None is returned.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">apio</span> <span class="o">=</span> <span class="n">PyPIAPIObject</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">wheel</span><span class="o">=</span><span class="n">wheel</span><span class="p">)</span>
+            <span class="n">apio</span><span class="o">.</span><span class="n">get_and_filter</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">apio</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">print_alert</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">[ERROR]: An error occurred while querying project metadata.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="n">err</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

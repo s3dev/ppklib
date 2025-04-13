@@ -1,0 +1,54 @@
+#
+# Project configuration file.
+#
+
+#
+# Project-level configuration items.
+#
+[project]
+
+
+#
+# System-level configuration items.
+#
+[system]
+
+[system.api]
+
+[system.api.osv]
+headers = {Host = "api.osv.dev", Accept = "application/json"}
+url = "https://api.osv.dev/v1/query"
+
+[system.api.osv.keys]
+vulns = [
+         "id",
+         "summary",
+         "aliases",
+         "published",
+         "modified"
+        ]
+
+[system.api.pypi]
+headers = {Host = "pypi.org", Accept = "application/json"}
+url = "https://pypi.org/pypi/{name}/json"
+urlv = "https://pypi.org/pypi/{name}/{version}/json"
+
+[system.api.pypi.keys]
+release = [
+           "filename",
+           "md5_digest",
+           "packagetype",
+           "python_version",
+           "requires_python",
+           "upload_time_iso_8601",
+           "yanked",
+           "yanked_reason",
+          ]
+project = [
+           "author",
+           "author_email",
+           "name",
+           "requires_dist",
+           "summary",
+           "version",
+          ]

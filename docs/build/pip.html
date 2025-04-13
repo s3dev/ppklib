@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pip.py - Wrappers for various pip-based commands &mdash; ppklib - v0.1.0b1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/css/s5defs-rules.css?v=0345028d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="osv.py - Wrappers for querying the OSV API" href="osv.html" />
+    <link rel="prev" title="Library API Documentation" href="library.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ppklib
+              <img src="_static/s3dev_tri_white_sm.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library.html">Library API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pip.py - Wrappers for various pip-based commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ppklib.pip.Download"><code class="docutils literal notranslate"><span class="pre">Download</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download.pkgpath"><code class="docutils literal notranslate"><span class="pre">Download.pkgpath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download.cleanup"><code class="docutils literal notranslate"><span class="pre">Download.cleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download.get"><code class="docutils literal notranslate"><span class="pre">Download.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download._cleanup"><code class="docutils literal notranslate"><span class="pre">Download._cleanup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download._download"><code class="docutils literal notranslate"><span class="pre">Download._download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download._find"><code class="docutils literal notranslate"><span class="pre">Download._find()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download._fix_missing"><code class="docutils literal notranslate"><span class="pre">Download._fix_missing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download._parse_err__no_matching_dist"><code class="docutils literal notranslate"><span class="pre">Download._parse_err__no_matching_dist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pip.Download._set_tmpdir_name"><code class="docutils literal notranslate"><span class="pre">Download._set_tmpdir_name()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="osv.html">osv.py - Wrappers for querying the OSV API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypi.html">pypi.py - Wrappers for querying the PyPI APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vtests.html">vtests.py - Vulnerability testing functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libs_utilities.html">Lib: utilities.py - Private internal utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_pypiapiobject.html">Object: pypiapiobject.py - Object for querying the PyPI JSON API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_osvapiobject.html">Object: osvapiobject.py - Object for querying the OSV API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_severitycountsobject.html">Object: severitycountsobject.py - Object container for severity counts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libs_changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ppklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library.html">Library API Documentation</a></li>
+      <li class="breadcrumb-item active">pip.py - Wrappers for various pip-based commands</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ppklib.pip">
+<span id="pip-py-wrappers-for-various-pip-based-commands"></span><h1>pip.py - Wrappers for various pip-based commands<a class="headerlink" href="#module-ppklib.pip" title="Link to this heading"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">Purpose<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This module provides the functionality related to calls to
+<code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+</dd>
+<dt class="field-even">Platform<span class="colon">:</span></dt>
+<dd class="field-even"><p>Linux/Windows | Python 3.10+</p>
+</dd>
+<dt class="field-odd">Developer<span class="colon">:</span></dt>
+<dd class="field-odd"><p>J Berendt</p>
+</dd>
+<dt class="field-even">Email<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="mailto:development&#37;&#52;&#48;s3dev&#46;uk">development<span>&#64;</span>s3dev<span>&#46;</span>uk</a></p>
+</dd>
+<dt class="field-odd">Comments<span class="colon">:</span></dt>
+<dd class="field-odd"><p>n/a</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>Download pandas:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib.pip</span> <span class="kn">import</span> <span class="n">Download</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span> <span class="o">=</span> <span class="n">Download</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+<span class="go"># Display the path to the downloaded target package.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span><span class="o">.</span><span class="n">pkgpath</span>
+
+<span class="go"># Optional cleanup after the wheels are no longer needed.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Download pandas version 2.2.3 for Windows and Python 3.13
+into a specified download directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib.pip</span> <span class="kn">import</span> <span class="n">Download</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span> <span class="o">=</span> <span class="n">Download</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">,</span>
+<span class="go">                     version=&#39;2.2.3&#39;,</span>
+<span class="go">                     args={&#39;platform&#39;: &#39;win_amd64&#39;, &#39;python_version&#39;: &#39;313&#39;},</span>
+<span class="go">                     tmpdir=&#39;/tmp/c0ff33&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+<span class="go"># Display the path to the downloaded target package.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span><span class="o">.</span><span class="n">pkgpath</span>
+
+<span class="go"># Optional cleanup after the wheels are no longer needed.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipdl</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="ppklib.pip.Download">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Namespace</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reqfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ppklib/pip.html#Download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Processing related to the <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">download</span></code> command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the target library to be downloaded.</p></li>
+<li><p><strong>version</strong> (<em>str</em><em>, </em><em>optional</em>) – Specific version of the target library
+to be downloaded. If None, the latest version will be
+downloaded. Defaults to None.</p></li>
+<li><p><strong>args</strong> (<em>dict</em><em> | </em><em>Namespace</em><em>, </em><em>optional</em>) – A dict or the <code class="docutils literal notranslate"><span class="pre">Namespace</span></code>
+object directly from the <code class="docutils literal notranslate"><span class="pre">ppk</span></code> argument parser. This will
+contain all the parameters required for the download.
+Generally, these will match <code class="docutils literal notranslate"><span class="pre">pip</span></code>’s CLI arguments which
+are implemented in this library, with the hyphens converted
+to underscores. For example: pip’s <code class="docutils literal notranslate"><span class="pre">--python-version</span></code> is
+<code class="docutils literal notranslate"><span class="pre">python_version</span></code>. Defaults to None.</p></li>
+<li><p><strong>reqfile</strong> (<em>str</em><em>, </em><em>optional</em>) – Full path to the requirements.txt file,
+if applicable. If using a requirements file, pass <code class="docutils literal notranslate"><span class="pre">None</span></code>
+to the <code class="docutils literal notranslate"><span class="pre">name</span></code> argument. Defaults to None.</p></li>
+<li><p><strong>tmpdir</strong> (<em>str</em><em>, </em><em>optional</em>) – Full path to the temp (download)
+directory. If None, a temp directory is automatically
+created. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="ppklib.pip.Download.pkgpath">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pkgpath</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ppklib.pip.Download.pkgpath" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the full path of the downloaded target package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full path to the downloaded target package if
+downloaded successfully, otherwise None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download.cleanup">
+<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ppklib/pip.html#Download.cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download.cleanup" title="Link to this definition"></a></dt>
+<dd><p>Remove the temporary directory and all downloaded files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Cleanup is only called automatically on pip error. Otherwise,
+it’s the user’s (or caller’s) decision to call for a
+cleanup.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ppklib/pip.html#Download.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download.get" title="Link to this definition"></a></dt>
+<dd><p>Collect the specified package and version (if provided).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The full path to the downloaded package can be accessed via
+the <a class="reference internal" href="#ppklib.pip.Download.pkgpath" title="ppklib.pip.Download.pkgpath"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pkgpath</span></code></a> property.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p>For example usage, please refer to this module’s
+<a class="reference internal" href="#module-ppklib.pip" title="ppklib.pip"><code class="xref py py-mod docutils literal notranslate"><span class="pre">docstring</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download._cleanup">
+<span class="sig-name descname"><span class="pre">_cleanup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ppklib/pip.html#Download._cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download._cleanup" title="Link to this definition"></a></dt>
+<dd><p>Class tear-down and internal cleanup method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download._download">
+<span class="sig-name descname"><span class="pre">_download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ppklib/pip.html#Download._download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download._download" title="Link to this definition"></a></dt>
+<dd><p>Using a subprocess call, download the package via pip.</p>
+<p>By design, the output from <code class="docutils literal notranslate"><span class="pre">pip</span></code> is streamed to the terminal
+and therefore not captured by a <code class="docutils literal notranslate"><span class="pre">subprocess.PIPE</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--only-binary=:all:</span></code> argument is added to the pip command
+if <em>any</em> of the following arguments are passed, as this is a
+requirement by pip, unless <code class="docutils literal notranslate"><span class="pre">--no_deps</span></code> is specified.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--only_binary</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--platform</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--python_version</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>If the <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">download</span></code> fails for any reason (returning a
+non-zero exit code), the program is exited with an exit code of 1
+and a force cleanup is performed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download._find">
+<span class="sig-name descname"><span class="pre">_find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ppklib/pip.html#Download._find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download._find" title="Link to this definition"></a></dt>
+<dd><p>Find the downloaded target package and store the filename.</p>
+<p>For case agnostic searching, (e.g. in the case of libraries such
+as ‘sqlalchemy’ which downloads as ‘SQLAlchemy’), the search is
+carried out using a <code class="xref py py-func docutils literal notranslate"><span class="pre">filter()</span></code> applied to <code class="xref py py-func docutils literal notranslate"><span class="pre">os.listdir()</span></code>.</p>
+<p>If the target package is found in the download directory, the
+filename is stored to the <code class="xref py py-attr docutils literal notranslate"><span class="pre">_pkg</span></code>: attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download._fix_missing">
+<span class="sig-name descname"><span class="pre">_fix_missing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ppklib/pip.html#Download._fix_missing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download._fix_missing" title="Link to this definition"></a></dt>
+<dd><p>Update the requirements file to fix the missing binary library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>bytes</em>) – Error message thrown by pip to stderr, directly
+from the <code class="docutils literal notranslate"><span class="pre">subprocess.Popen.communicate</span></code> call.</p>
+</dd>
+</dl>
+<p>Using pip’s error message, the offending package name is
+extracted. Then, a line (as shown below) is appended to the
+requirements file, instructing pip to download the source
+distribution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">binary</span><span class="o">=&lt;</span><span class="n">pkg_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Finally, re-call <code class="xref py py-meth docutils literal notranslate"><span class="pre">_pip_download()</span></code> to re-try the download
+with the modified requirements file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download._parse_err__no_matching_dist">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_parse_err__no_matching_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/ppklib/pip.html#Download._parse_err__no_matching_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download._parse_err__no_matching_dist" title="Link to this definition"></a></dt>
+<dd><p>Extract the relevant package name from the error message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>bytes</em>) – Error message directly from the
+Popen.communicate stderr pipe.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Name of the offending package.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pip.Download._set_tmpdir_name">
+<span class="sig-name descname"><span class="pre">_set_tmpdir_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ppklib/pip.html#Download._set_tmpdir_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pip.Download._set_tmpdir_name" title="Link to this definition"></a></dt>
+<dd><p>Set the name of the temp directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the temp directory from class
+instance. Defaults to None.</p>
+</dd>
+</dl>
+<p>If passed as None, a temp directory name is derived and used by
+pip, then destroyed afterwords. If a name is provided by the
+caller, this name is used instead.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="library.html" class="btn btn-neutral float-left" title="Library API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="osv.html" class="btn btn-neutral float-right" title="osv.py - Wrappers for querying the OSV API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

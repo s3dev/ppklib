@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ppklib.objects.pypiapiobject &mdash; ppklib - v0.1.0b1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/s5defs-rules.css?v=0345028d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            ppklib
+              <img src="../../../_static/s3dev_tri_white_sm.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../library.html">Library API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../libs_changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact Us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ppklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ppklib.objects.pypiapiobject</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ppklib.objects.pypiapiobject</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:Purpose:   This module provides the object implementation for</span>
+<span class="sd">            interacting with PyPI&#39;s JSON API.</span>
+
+<span class="sd">:Platform:  Linux/Windows | Python 3.8+</span>
+<span class="sd">:Developer: J Berendt</span>
+<span class="sd">:Email:     development@s3dev.uk</span>
+
+<span class="sd">:Comments:  n/a</span>
+
+<span class="sd">:References:</span>
+
+<span class="sd">            The following links provide the requirements (specification)</span>
+<span class="sd">            on which this module&#39;s logic and API interactions are based:</span>
+
+<span class="sd">                - `PyPI Index API &lt;indexapi_&gt;`_</span>
+<span class="sd">                - `PyPI JSON API &lt;jsonapi_&gt;`_</span>
+
+<span class="sd">:Example:</span>
+
+<span class="sd">            Create an instance of the object and query the API to obtain</span>
+<span class="sd">            *release-specific* metadata::</span>
+
+<span class="sd">                &gt;&gt;&gt; from ppklib.objects.jsonapiobject import PyPIAPIObject</span>
+
+<span class="sd">                &gt;&gt;&gt; papi = PyPIAPIObject(name=&#39;utils4&#39;,</span>
+<span class="sd">                                         version=&#39;1.7.0&#39;,</span>
+<span class="sd">                                         wheel=&#39;utils4-1.7.0-cp312-cp312-win_amd64.whl&#39;)</span>
+<span class="sd">                &gt;&gt;&gt; papi.get_and_filter()</span>
+
+<span class="sd">                &gt;&gt;&gt; # Inspect the flattened data.</span>
+<span class="sd">                &gt;&gt;&gt; papi.data</span>
+<span class="sd">                {&#39;author&#39;: None,</span>
+<span class="sd">                 &#39;author_email&#39;: &#39;The Developers &lt;development@s3dev.uk&gt;&#39;,</span>
+<span class="sd">                 &#39;name&#39;: &#39;utils4&#39;,</span>
+<span class="sd">                 &#39;summary&#39;: &#39;A general utilities package for Python 3.7+.&#39;,</span>
+<span class="sd">                 &#39;requires_dist&#39;: [&#39;colorama&#39;],</span>
+<span class="sd">                 &#39;version&#39;: &#39;1.7.0&#39;,</span>
+<span class="sd">                 &#39;yanked&#39;: False,</span>
+<span class="sd">                 &#39;yanked_reason&#39;: None,</span>
+<span class="sd">                 &#39;filename&#39;: &#39;utils4-1.7.0-cp312-cp312-win_amd64.whl&#39;,</span>
+<span class="sd">                 &#39;md5_digest&#39;: &#39;c8e0b67399cedb52ade57a2d33f52fe6&#39;,</span>
+<span class="sd">                 &#39;python_version&#39;: &#39;cp312&#39;,</span>
+<span class="sd">                 &#39;packagetype&#39;: &#39;bdist_wheel&#39;,</span>
+<span class="sd">                 &#39;requires_python&#39;: &#39;&gt;=3.7&#39;,</span>
+<span class="sd">                 &#39;upload_time_iso_8601&#39;: &#39;2025-01-04T17:13:14.409585Z&#39;,</span>
+<span class="sd">                 &#39;vulnerabilities&#39;: [],</span>
+<span class="sd">                 &#39;latest_version&#39;: &#39;1.7.0&#39;}</span>
+
+<span class="sd">            .. _indexapi: https://docs.pypi.org/api/index-api/</span>
+<span class="sd">            .. _jsonapi: https://docs.pypi.org/api/json/</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># pylint: disable=wrong-import-order</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">utils4.user_interface</span> <span class="kn">import</span> <span class="n">ui</span>
+<span class="c1"># locals</span>
+<span class="k">try</span><span class="p">:</span>  <span class="c1"># nocover</span>
+    <span class="kn">from</span> <span class="nn">.libs.config</span> <span class="kn">import</span> <span class="n">systemcfg</span> <span class="k">as</span> <span class="n">syscfg</span>
+    <span class="kn">from</span> <span class="nn">.libs.utilities</span> <span class="kn">import</span> <span class="n">utilities</span> <span class="k">as</span> <span class="n">ppkutils</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">libs.config</span> <span class="kn">import</span> <span class="n">systemcfg</span> <span class="k">as</span> <span class="n">syscfg</span>
+    <span class="kn">from</span> <span class="nn">libs.utilities</span> <span class="kn">import</span> <span class="n">utilities</span> <span class="k">as</span> <span class="n">ppkutils</span>
+
+
+<div class="viewcode-block" id="PyPIAPIObject">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject">[docs]</a>
+<span class="k">class</span> <span class="nc">PyPIAPIObject</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object designed for interacting with PyPI&#39;s JSON API.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str, optional): Name of the package to query. Providing</span>
+<span class="sd">            only the name will return the *latest* project-based</span>
+<span class="sd">            metadata. For wheel-specific (release-specific) metadata,</span>
+<span class="sd">            provide the ``version`` and/or ``wheel`` arguments too.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">        version (str, optional): Query the metadata specific to this</span>
+<span class="sd">            version; otherwise the metadata for the *latest* version</span>
+<span class="sd">            will be returned. Defaults to None.</span>
+<span class="sd">        wheel (str, optional): Wheel filename. Providing *only* this</span>
+<span class="sd">            argument will return version-specific release information.</span>
+<span class="sd">            The project name and version will be parsed from the wheel</span>
+<span class="sd">            filename. Defaults to None.</span>
+
+<span class="sd">    .. tip:</span>
+<span class="sd">        To retrieve release-specific metadata, provide the ``wheel``</span>
+<span class="sd">        filename argument only.</span>
+
+<span class="sd">        The project name and version will be derived from the wheel</span>
+<span class="sd">        filename.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span>
+                 <span class="s1">&#39;_data&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_rawjson&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_status_code&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_version&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_wheel&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wheel</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;PyPI API object class initialiser.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>           <span class="c1"># \</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span>     <span class="c1">#  -- Class arguments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span> <span class="o">=</span> <span class="n">wheel</span>         <span class="c1"># /</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">{}</span>             <span class="c1"># Processed (filtered) JSON data.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span> <span class="o">=</span> <span class="p">{}</span>          <span class="c1"># Raw JSON reqponse from GET request.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">=</span> <span class="mi">0</span>       <span class="c1"># Status code returned by the response.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_args</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of the object.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s1"> v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Data: None&#39;</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">,</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)):</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Data: Raw&#39;</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)):</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Data: Metadata&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Data: Metadata (release)&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the filtered JSON response as a *flat* dictionary.</span>
+
+<span class="sd">        This property returns the *filtered* response from the JSON API</span>
+<span class="sd">        as a *flattened* dictionary. This is to enable easy conversion</span>
+<span class="sd">        to a ``pandas.Series`` or ``pandas.DataFrame``.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the name of the target package.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rawjson</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the raw JSON data returned by the API.</span>
+
+<span class="sd">        This property returns the *complete* JSON response from the API.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">status_code</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the response&#39;s status code.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_code</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the version number of the target package.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vulns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the vulnerabilities as listed by PyPI.</span>
+
+<span class="sd">        Specifically, this is an accessor to the ``&#39;vulnerabilities&#39;``</span>
+<span class="sd">        key of the :attr:`data` property, which is a *subset* of the API</span>
+<span class="sd">        response.</span>
+
+<span class="sd">        If the full response is required, please use the :attr:`rawjson`</span>
+<span class="sd">        property.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Vulnerabilities are only available if the ``wheel`` argument</span>
+<span class="sd">            is used on instantiation, as the ``wheel`` argument is used</span>
+<span class="sd">            to query a specific release from PyPI.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">wheel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the wheel&#39;s filename for the target package.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span>
+
+<div class="viewcode-block" id="PyPIAPIObject.get">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query the PyPI database using the JSON API.</span>
+
+<span class="sd">        Use this method to populate the :attr:`_rawjson` attribute, which</span>
+<span class="sd">        is accessed through the :attr:`rawjson` property.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the request succeeds, otherwise False.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getrequest</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="n">err</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># nocover</span></div>
+
+
+<div class="viewcode-block" id="PyPIAPIObject.get_and_filter">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject.get_and_filter">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_and_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query the PyPI database using the JSON API and filter the results.</span>
+
+<span class="sd">        This method filters the full response to create a *flattened*</span>
+<span class="sd">        dictionary with the &#39;frequently used&#39;/&#39;most descriptive&#39;</span>
+<span class="sd">        key/value pairs.</span>
+
+<span class="sd">        The primary purpose for creating a flattened subset is to</span>
+<span class="sd">        facilitate easy conversion to a ``pandas.Series`` or</span>
+<span class="sd">        ``pandas.DataFrame``, as these can be created from a simple</span>
+<span class="sd">        ``dict`` object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_extract_project_metadata</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_extract_release_metadata</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_latest_version</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="n">err</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PyPIAPIObject._build_request">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject._build_request">[docs]</a>
+    <span class="k">def</span> <span class="nf">_build_request</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the GET request using the available arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the parameters required for a</span>
+<span class="sd">            :func:`requests.get` request. Simply pass this dict into</span>
+<span class="sd">            the function with double asterisks for unpacking.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;pypi&#39;</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;pypi&#39;</span><span class="p">][</span><span class="s1">&#39;urlv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;pypi&#39;</span><span class="p">][</span><span class="s1">&#39;headers&#39;</span><span class="p">]}</span></div>
+
+
+<div class="viewcode-block" id="PyPIAPIObject._extract_release_metadata">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject._extract_release_metadata">[docs]</a>
+    <span class="k">def</span> <span class="nf">_extract_release_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract release-specific metadata from the response.</span>
+
+<span class="sd">        This method extracts release-specific metadata from the</span>
+<span class="sd">        ``[&#39;urls&#39;]`` key and therefore both the ``version`` *and*</span>
+<span class="sd">        ``wheel`` arguments must be provided. If these are missing, this</span>
+<span class="sd">        method is not executed.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The extracted keys from the ``&#39;urls&#39;`` key of the raw JSON</span>
+<span class="sd">            are defined in ``libs/config.toml``.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)):</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;pypi&#39;</span><span class="p">][</span><span class="s1">&#39;keys&#39;</span><span class="p">][</span><span class="s1">&#39;release&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">[</span><span class="s1">&#39;urls&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">r</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
+                    <span class="k">break</span>  <span class="c1"># Can only refer to a single wheel. Once found, get out.</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">[</span><span class="s1">&#39;vulnerabilities&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PyPIAPIObject._extract_project_metadata">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject._extract_project_metadata">[docs]</a>
+    <span class="k">def</span> <span class="nf">_extract_project_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract project metadata from the response.</span>
+
+<span class="sd">        This method only extracts metadata from the ``[&#39;info&#39;]`` key and</span>
+<span class="sd">        is therefore *only* project (not release) data.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The extracted keys from the ``&#39;info&#39;`` key of the raw JSON</span>
+<span class="sd">            are defined in ``libs/config.toml``.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;pypi&#39;</span><span class="p">][</span><span class="s1">&#39;keys&#39;</span><span class="p">][</span><span class="s1">&#39;project&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
+        <span class="c1"># ???: Get license info.</span>
+        <span class="c1">#      This may need some more thought later as some packages</span>
+        <span class="c1">#      (.e.g pandas, numpy) display the full license rather than</span>
+        <span class="c1">#      only the type.</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;license&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;license_expression&#39;</span><span class="p">]</span>
+                           <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;license&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;license&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;license&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;license&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Full license displayed&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="PyPIAPIObject._get_latest_version">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject._get_latest_version">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_latest_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query to get the latest version of the package.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This must be a separate request as the ``version`` key lists</span>
+<span class="sd">            the version of the queried package, which differs if the</span>
+<span class="sd">            version parameter of the API is provided. Therefore, this</span>
+<span class="sd">            query is run *without* a specified version to ensure the</span>
+<span class="sd">            latest version is obtained.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">PyPIAPIObject</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># Explicitly exclude the version.</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;latest_version&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">rawjson</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]})</span></div>
+
+
+<div class="viewcode-block" id="PyPIAPIObject._getrequest">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject._getrequest">[docs]</a>
+    <span class="k">def</span> <span class="nf">_getrequest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send the GET request to the API and store the response.</span>
+
+<span class="sd">        If successful, the raw JSON response is stored into the</span>
+<span class="sd">        :attr:`_rawjson` attribute of this class.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the response to the GET request is 200,</span>
+<span class="sd">            otherwise False.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_request</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">[ERROR]: Request error </span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s1">) for &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+        <span class="n">msgv</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="si">}</span><span class="s1">.&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="k">else</span> <span class="s1">&#39;.&#39;</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">print_alert</span><span class="p">(</span><span class="n">msg</span> <span class="o">+</span> <span class="n">msgv</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="PyPIAPIObject._test_args">
+<a class="viewcode-back" href="../../../objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject._test_args">[docs]</a>
+    <span class="k">def</span> <span class="nf">_test_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify the appropriate arguments are provided.</span>
+
+<span class="sd">        :Tasks:</span>
+<span class="sd">            - Normalise the :attr:`name` attribute value.</span>
+<span class="sd">            - If either the name or version are not provided, and the</span>
+<span class="sd">              wheel filename is provided, the name and version are</span>
+<span class="sd">              derived from the wheel filename.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;At least a package name or wheel filename must be provided.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">ppkutils</span><span class="o">.</span><span class="n">normalise_name</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+        <span class="c1"># If the wheel is provided, derive name/version if not already provided.</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">((</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)):</span>
+            <span class="c1"># Cannot test the file signature as only the basename is provided.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.tar.gz&#39;</span><span class="p">),</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.whl&#39;</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The argument passed to </span><span class="se">\&#39;</span><span class="s1">wheel=</span><span class="se">\&#39;</span><span class="s1"> must be a valid wheel or &#39;</span>
+                                 <span class="s1">&#39;tar.gz source archive.&#39;</span><span class="p">)</span>
+            <span class="c1"># .tar.gz files must be parsed differently (str.find returns -1 on failure).</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">idx</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.tar.gz&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

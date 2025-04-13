@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ppklib.objects.osvapiobject &mdash; ppklib - v0.1.0b1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/s5defs-rules.css?v=0345028d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            ppklib
+              <img src="../../../_static/s3dev_tri_white_sm.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../library.html">Library API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../libs_changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact Us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ppklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ppklib.objects.osvapiobject</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ppklib.objects.osvapiobject</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:Purpose:   This module provides the object implementation for</span>
+<span class="sd">            interacting with the `Open Source Vulnerabilities &lt;osvweb_&gt;`_</span>
+<span class="sd">            (OSV) API.</span>
+
+<span class="sd">:Platform:  Linux/Windows | Python 3.8+</span>
+<span class="sd">:Developer: J Berendt</span>
+<span class="sd">:Email:     development@s3dev.uk</span>
+
+<span class="sd">:Comments:  n/a</span>
+
+<span class="sd">:References:</span>
+
+<span class="sd">            The following links provide the requirements (specification)</span>
+<span class="sd">            on which this module&#39;s logic and API interactions are based:</span>
+
+<span class="sd">                - `OSV API &lt;osvapi_&gt;`_</span>
+
+<span class="sd">:Example:</span>
+
+<span class="sd">            Create an instance of the object and query the API to obtain</span>
+<span class="sd">            *version-specific* vulnerabilities::</span>
+
+<span class="sd">                &gt;&gt;&gt; from ppklib.objects.osvapiobject import OSVAPIObject</span>
+
+<span class="sd">                &gt;&gt;&gt; oapi = OSVAPIObject(name=&#39;numpy&#39;, version=&#39;1.20.0&#39;)</span>
+<span class="sd">                &gt;&gt;&gt; oapi.get()</span>
+
+<span class="sd">                &gt;&gt;&gt; # Inspect the raw JSON data.</span>
+<span class="sd">                &gt;&gt;&gt; oapi.rawjson</span>
+<span class="sd">                {&#39;not_shown&#39;: &#39;too_big&#39;}</span>
+
+
+<span class="sd">            Create an instance of the object and query the API to obtain</span>
+<span class="sd">            *version-specific* vulnerabilities, **and** subset the raw</span>
+<span class="sd">            API response to frequently used keys::</span>
+
+<span class="sd">                &gt;&gt;&gt; from ppklib.objects.osvapiobject import OSVAPIObject</span>
+
+<span class="sd">                &gt;&gt;&gt; oapi = OSVAPIObject(name=&#39;numpy&#39;, version=&#39;1.20.0&#39;)</span>
+<span class="sd">                &gt;&gt;&gt; oapi.get_and_filter()</span>
+
+<span class="sd">                &gt;&gt;&gt; # View the reported vulnerabilities.</span>
+<span class="sd">                &gt;&gt;&gt; oapi.vulns</span>
+<span class="sd">                [{&#39;id&#39;: &#39;GHSA-6p56-wp2h-9hxr&#39;,</span>
+<span class="sd">                  &#39;summary&#39;: &#39;NumPy Buffer Overflow (Disputed)&#39;,</span>
+<span class="sd">                  &#39;aliases&#39;: [&#39;CVE-2021-33430&#39;, &#39;PYSEC-2021-854&#39;],</span>
+<span class="sd">                  &#39;published&#39;: &#39;2022-01-07T00:09:39Z&#39;,</span>
+<span class="sd">                  &#39;modified&#39;: &#39;2024-09-26T15:01:21.525444Z&#39;,</span>
+<span class="sd">                  &#39;severity&#39;: &#39;MODERATE&#39;,</span>
+<span class="sd">                  &#39;vectors&#39;: [{&#39;CVSS_V3&#39;: &#39;CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H&#39;},</span>
+<span class="sd">                   {&#39;CVSS_V4&#39;: &#39;CVSS:4.0/AV:N/AC:H/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N&#39;}]},</span>
+<span class="sd">                 {&#39;id&#39;: &#39;GHSA-fpfv-jqm9-f5jm&#39;,</span>
+<span class="sd">                  &#39;summary&#39;: &#39;Incorrect Comparison in NumPy&#39;,</span>
+<span class="sd">                  &#39;aliases&#39;: [&#39;CVE-2021-34141&#39;, &#39;PYSEC-2021-855&#39;],</span>
+<span class="sd">                  &#39;published&#39;: &#39;2021-12-18T00:00:41Z&#39;,</span>
+<span class="sd">                  &#39;modified&#39;: &#39;2023-11-08T04:06:07.388275Z&#39;,</span>
+<span class="sd">                  &#39;severity&#39;: &#39;MODERATE&#39;,</span>
+<span class="sd">                  &#39;vectors&#39;: [{&#39;CVSS_V3&#39;: &#39;CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L&#39;}]}]</span>
+
+<span class="sd">                &gt;&gt;&gt; # View the count of each severity class.</span>
+<span class="sd">                &gt;&gt;&gt; oapi.counts</span>
+<span class="sd">                &lt;SeverityCountsObject&gt; C: 0, H: 0, M: 2, L: 0</span>
+
+<span class="sd">            .. _osvapi: https://google.github.io/osv.dev/api/</span>
+<span class="sd">            .. _osvweb: https://google.github.io/osv.dev/</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># pylint: disable=wrong-import-order</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">utils4.user_interface</span> <span class="kn">import</span> <span class="n">ui</span>
+<span class="c1"># locals</span>
+<span class="k">try</span><span class="p">:</span>  <span class="c1"># nocover</span>
+    <span class="kn">from</span> <span class="nn">.libs.config</span> <span class="kn">import</span> <span class="n">systemcfg</span> <span class="k">as</span> <span class="n">syscfg</span>
+    <span class="kn">from</span> <span class="nn">.libs.utilities</span> <span class="kn">import</span> <span class="n">utilities</span> <span class="k">as</span> <span class="n">ppkutils</span>
+    <span class="kn">from</span> <span class="nn">.objects.severitycountsobject</span> <span class="kn">import</span> <span class="n">SeverityCountsObject</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">libs.config</span> <span class="kn">import</span> <span class="n">systemcfg</span> <span class="k">as</span> <span class="n">syscfg</span>
+    <span class="kn">from</span> <span class="nn">libs.utilities</span> <span class="kn">import</span> <span class="n">utilities</span> <span class="k">as</span> <span class="n">ppkutils</span>
+    <span class="kn">from</span> <span class="nn">objects.severitycountsobject</span> <span class="kn">import</span> <span class="n">SeverityCountsObject</span>
+
+
+<div class="viewcode-block" id="OSVAPIObject">
+<a class="viewcode-back" href="../../../objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject">[docs]</a>
+<span class="k">class</span> <span class="nc">OSVAPIObject</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object designed for interacting with OSV&#39;s API.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str, optional): Name of the package to query. Providing</span>
+<span class="sd">            only the name will return the *all* project-related</span>
+<span class="sd">            vulnerabilities. For wheel-specific (release-specific)</span>
+<span class="sd">            vulnerabilities, provide the ``version`` and/or ``wheel``</span>
+<span class="sd">            arguments too. Defaults to None.</span>
+<span class="sd">        version (str, optional): Query the vulnerabilities specific to</span>
+<span class="sd">            this version; otherwise the vulnerabilities for *all*</span>
+<span class="sd">            versions will be returned. Defaults to None.</span>
+<span class="sd">        wheel (str, optional): Wheel filename. Providing *only* this</span>
+<span class="sd">            argument will return version-specific vulnerability</span>
+<span class="sd">            information. The project name and version will be parsed</span>
+<span class="sd">            from the wheel filename. Defaults to None.</span>
+
+<span class="sd">    .. tip:</span>
+<span class="sd">        To retrieve release-specific vulnerabilities, provide the</span>
+<span class="sd">        ``wheel`` filename argument only.</span>
+
+<span class="sd">        The project name and version will be derived from the wheel</span>
+<span class="sd">        filename.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span>
+                 <span class="s1">&#39;_counts&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_rawjson&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_status_code&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_version&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_vulns&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_wheel&#39;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wheel</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;OSV API object class initialiser.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>           <span class="c1"># \</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span>     <span class="c1">#  -- Class arguments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span> <span class="o">=</span> <span class="n">wheel</span>         <span class="c1"># /</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span> <span class="o">=</span> <span class="kc">None</span>         <span class="c1"># Severity class counts.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span> <span class="o">=</span> <span class="p">{}</span>          <span class="c1"># Raw JSON reqponse from GET request.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">=</span> <span class="mi">0</span>       <span class="c1"># Status code returned by the response.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span> <span class="o">=</span> <span class="p">[]</span>            <span class="c1"># Processed (filtered) vulnerabilities.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_args</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of the object.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s1"> v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Data: None&#39;</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">,</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span><span class="p">)):</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Data: Raw&#39;</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span><span class="p">)):</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Data: Vulnerabilities&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>  <span class="c1"># nocover  # Should be unreachable.</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">counts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SeverityCountsObject</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the severity class counts.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the name of the target package.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rawjson</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the raw JSON data returned by the API.</span>
+
+<span class="sd">        This property returns the *complete* JSON response from the API.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">status_code</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the response&#39;s status code.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_code</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the version number of the target package.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vulns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the filtered vulnerabilities as a list of dicts.</span>
+
+<span class="sd">        This property returns the *filtered* response from the API as a</span>
+<span class="sd">        list of relatively flat dictionaries. This is to enable easy</span>
+<span class="sd">        conversion to a ``pandas.Series`` or ``pandas.DataFrame``.</span>
+
+<span class="sd">        If the full response is required, please use the :attr:`rawjson`</span>
+<span class="sd">        property.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">wheel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor to the wheel&#39;s filename for the target package.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span>
+
+<div class="viewcode-block" id="OSVAPIObject.get">
+<a class="viewcode-back" href="../../../objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query the PyPI database using the JSON API.</span>
+
+<span class="sd">        Use this method to populate the :attr:`_rawjson` attribute, which</span>
+<span class="sd">        is accessed through the :attr:`rawjson` property.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the request succeeds, otherwise False.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getrequest</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="n">err</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># nocover</span></div>
+
+
+<div class="viewcode-block" id="OSVAPIObject.get_and_filter">
+<a class="viewcode-back" href="../../../objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject.get_and_filter">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_and_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query the OSV database using the API and filter the results.</span>
+
+<span class="sd">        This method filters the full JSON response to create a</span>
+<span class="sd">        list of (relatively) flattened dictionaries with the</span>
+<span class="sd">        &#39;frequently used&#39;/&#39;most descriptive&#39; key/value pairs for the</span>
+<span class="sd">        reported vulnerabilities. These are stored into the :attr:`vulns`</span>
+<span class="sd">        property for access.</span>
+
+<span class="sd">        The primary purpose for creating a flattened subset is to</span>
+<span class="sd">        facilitate easy conversion to a ``pandas.Series`` or</span>
+<span class="sd">        ``pandas.DataFrame``, as these can be created from a simple</span>
+<span class="sd">        ``dict`` object.</span>
+
+<span class="sd">        If the full response is required, please use the :attr:`rawjson`</span>
+<span class="sd">        property.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_flatten_vulnerability_data</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span> <span class="o">=</span> <span class="n">SeverityCountsObject</span><span class="p">(</span><span class="n">vulns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="n">err</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="OSVAPIObject._build_request">
+<a class="viewcode-back" href="../../../objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject._build_request">[docs]</a>
+    <span class="k">def</span> <span class="nf">_build_request</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the GET request using the available arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the parameters required for a</span>
+<span class="sd">            :func:`requests.get` request. Simply pass this dict into</span>
+<span class="sd">            the function with double asterisks for unpacking.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;osv&#39;</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">],</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;package&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
+                                                                            <span class="s1">&#39;ecosystem&#39;</span><span class="p">:</span> <span class="s1">&#39;PyPI&#39;</span><span class="p">}}}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;osv&#39;</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">],</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">,</span>
+                                                                <span class="s1">&#39;package&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
+                                                                            <span class="s1">&#39;ecosystem&#39;</span><span class="p">:</span> <span class="s1">&#39;PyPI&#39;</span><span class="p">}}}</span>
+        <span class="n">req</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;osv&#39;</span><span class="p">][</span><span class="s1">&#39;headers&#39;</span><span class="p">]})</span>
+        <span class="k">return</span> <span class="n">req</span></div>
+
+
+<div class="viewcode-block" id="OSVAPIObject._flatten_vulnerability_data">
+<a class="viewcode-back" href="../../../objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject._flatten_vulnerability_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">_flatten_vulnerability_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filter the &#39;frequently used&#39; vulnerability items into a dict.</span>
+
+<span class="sd">        The result of the filter can be accessed via the :attr:`vulns`</span>
+<span class="sd">        property.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span><span class="p">[</span><span class="s1">&#39;vulns&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;database_specific&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                    <span class="n">vulns</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">syscfg</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">][</span><span class="s1">&#39;osv&#39;</span><span class="p">][</span><span class="s1">&#39;keys&#39;</span><span class="p">][</span><span class="s1">&#39;vulns&#39;</span><span class="p">]:</span>
+                        <span class="n">vulns</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                    <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;severity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;database_specific&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s1">&#39;severity&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                        <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;vectors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">):</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">)}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;severity&#39;</span><span class="p">]]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vulns</span><span class="p">)</span></div>
+
+
+    <span class="c1"># TODO: Move this to a generalised API class/module.</span>
+    <span class="c1">#       Note this is a POST request whereas the PyPI API is a GET</span>
+    <span class="c1">#       request.</span>
+<div class="viewcode-block" id="OSVAPIObject._getrequest">
+<a class="viewcode-back" href="../../../objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject._getrequest">[docs]</a>
+    <span class="k">def</span> <span class="nf">_getrequest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send the GET request to the API and store the response.</span>
+
+<span class="sd">        If successful, the raw JSON response is stored into the</span>
+<span class="sd">        :attr:`_rawjson` attribute of this class.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the response to the GET request is 200,</span>
+<span class="sd">            otherwise False.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_request</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="o">**</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rawjson</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">[ERROR]: Request error </span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s1">) for &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+        <span class="n">msgv</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; v</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="si">}</span><span class="s1">.&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="k">else</span> <span class="s1">&#39;.&#39;</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">print_alert</span><span class="p">(</span><span class="n">msg</span> <span class="o">+</span> <span class="n">msgv</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+    <span class="c1"># TODO: Move this to a generalised API class/module.</span>
+<div class="viewcode-block" id="OSVAPIObject._test_args">
+<a class="viewcode-back" href="../../../objects_osvapiobject.html#ppklib.objects.osvapiobject.OSVAPIObject._test_args">[docs]</a>
+    <span class="k">def</span> <span class="nf">_test_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify the appropriate arguments are provided.</span>
+
+<span class="sd">        :Tasks:</span>
+<span class="sd">            - Normalise the :attr:`name` attribute value.</span>
+<span class="sd">            - If either the name or version are not provided, and the</span>
+<span class="sd">              wheel filename is provided, the name and version are</span>
+<span class="sd">              derived from the wheel filename.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;At least a package name or wheel filename must be provided.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">ppkutils</span><span class="o">.</span><span class="n">normalise_name</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+        <span class="c1"># If the wheel is provided, derive name/version if not already provided.</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">((</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)):</span>
+            <span class="c1"># Cannot test the file signature as only the basename is provided.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.tar.gz&#39;</span><span class="p">),</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.whl&#39;</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The argument passed to </span><span class="se">\&#39;</span><span class="s1">wheel=</span><span class="se">\&#39;</span><span class="s1"> must be a valid wheel or &#39;</span>
+                                 <span class="s1">&#39;tar.gz source archive.&#39;</span><span class="p">)</span>
+            <span class="c1"># .tar.gz files must be parsed differently (str.find returns -1 on failure).</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="n">idx</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.tar.gz&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wheel</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

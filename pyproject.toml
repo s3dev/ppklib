@@ -30,21 +30,21 @@ dependencies = [
                ]
 dynamic = ["version"]
 keywords = ["library", "security", "utility", "utilities"]
-license = "MIT"
+license = "GPL-3.0-only"
 license-files = ["LICENSE"]
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10"
 
 [project.urls]
-Documentation = "https://github.com/s3dev/ppklib"  # Coming soon
+Documentation = "https://ppklib.readthedocs.io/en/latest"
 Homepage = "https://github.com/s3dev/ppklib"
 Repository = "https://github.com/s3dev/ppklib"
 
 [tool.setuptools.dynamic]
-version = {attr = "ppklib._version.__version__"}
+version = {attr = "ppklib.libs._version.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = []
+include = ["ppklib"]
 exclude = []
 

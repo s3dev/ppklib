@@ -1,0 +1,237 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ppklib.libs.utilities &mdash; ppklib - v0.1.0b1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/s5defs-rules.css?v=0345028d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            ppklib
+              <img src="../../../_static/s3dev_tri_white_sm.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../library.html">Library API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../libs_changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact Us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ppklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ppklib.libs.utilities</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ppklib.libs.utilities</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:Purpose:   This module contains generalised utility-based functions,</span>
+<span class="sd">            used throughout the project.</span>
+
+<span class="sd">:Platform:  Linux/Windows | Python 3.6+</span>
+<span class="sd">:Developer: J Berendt</span>
+<span class="sd">:Email:     development@s3dev.uk</span>
+
+<span class="sd">:Comments:  n/a</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># pylint: disable=line-too-long  # URL</span>
+<span class="c1"># pylint: disable=wrong-import-order</span>
+
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">sysconfig</span>
+
+
+<div class="viewcode-block" id="Utilities">
+<a class="viewcode-back" href="../../../libs_utilities.html#ppklib.libs.utilities.Utilities">[docs]</a>
+<span class="k">class</span> <span class="nc">Utilities</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;General utility functions wrapper class.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Utilities.get_desktop">
+<a class="viewcode-back" href="../../../libs_utilities.html#ppklib.libs.utilities.Utilities.get_desktop">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_desktop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the path to the user&#39;s Desktop.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The full path to the current user&#39;s Desktop.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/Desktop&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Utilities.get_platform">
+<a class="viewcode-back" href="../../../libs_utilities.html#ppklib.libs.utilities.Utilities.get_platform">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_platform</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the current platform.&quot;&quot;&quot;</span>
+        <span class="n">os_</span><span class="p">,</span> <span class="n">arch_</span> <span class="o">=</span> <span class="n">sysconfig</span><span class="o">.</span><span class="n">get_platform</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="n">os_</span> <span class="o">=</span> <span class="s1">&#39;manylinux2014&#39;</span> <span class="k">if</span> <span class="n">os_</span> <span class="o">==</span> <span class="s1">&#39;linux&#39;</span> <span class="k">else</span> <span class="n">os_</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">os_</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">arch_</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="Utilities.get_python_version">
+<a class="viewcode-back" href="../../../libs_utilities.html#ppklib.libs.utilities.Utilities.get_python_version">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_python_version</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the no-dot major minor python version.</span>
+
+<span class="sd">        This will be the version of the Python executable used to import</span>
+<span class="sd">        this library, e.g. the ``python.exe`` for *this* environment.</span>
+
+<span class="sd">        For example:</span>
+<span class="sd">            - Python 3.11.x is returned as: ``&#39;311&#39;``</span>
+<span class="sd">            - Python 3.12.x is returned as: ``&#39;312&#39;``</span>
+<span class="sd">            - etc.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ma</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ma</span><span class="si">}{</span><span class="n">mi</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="Utilities.get_username">
+<a class="viewcode-back" href="../../../libs_utilities.html#ppklib.libs.utilities.Utilities.get_username">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_username</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the username.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The username for the current user.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if &#39;win&#39; in sys.platform:</span>
+        <span class="c1">#     return os.environ.get(&#39;USERNAME&#39;)</span>
+        <span class="c1"># return os.environ.get(&#39;USER&#39;)</span>
+        <span class="k">return</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span></div>
+
+
+    <span class="c1"># # TODO: Move this into utils4.futils.</span>
+    <span class="c1"># @staticmethod</span>
+    <span class="c1"># def is_gzip(path: str) -&gt; bool:</span>
+    <span class="c1">#     &quot;&quot;&quot;Test if a file is a GZIP compressed file.</span>
+
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         path (str): Full path to the file to be tested.</span>
+
+    <span class="c1">#     Returns:</span>
+    <span class="c1">#         bool: True if the file&#39;s binary siganture matches a GZIP</span>
+    <span class="c1">#         file, otherwise False.</span>
+
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     with open(path, &#39;rb&#39;) as f:</span>
+    <span class="c1">#         sig = f.read(2)</span>
+    <span class="c1">#     return sig == b&#39;\x1f\x8b&#39;</span>
+
+<div class="viewcode-block" id="Utilities.normalise_name">
+<a class="viewcode-back" href="../../../libs_utilities.html#ppklib.libs.utilities.Utilities.normalise_name">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">normalise_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalise the package name per PyPA.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Package name.</span>
+
+<span class="sd">        Reference:</span>
+<span class="sd">            - https://packaging.python.org/en/latest/specifications/name-normalization/#name-normalization</span>
+
+<span class="sd">        Deviation:</span>
+<span class="sd">            This method deviates slightly from the specification in that</span>
+<span class="sd">            the listed characters are replaced with an *underscore*</span>
+<span class="sd">            (rather than a hyphen) in efforts to match the name of the</span>
+<span class="sd">            downloaded wheel file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Normalised package name.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[-_.]+&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<span class="n">utilities</span> <span class="o">=</span> <span class="n">Utilities</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

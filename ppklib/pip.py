@@ -26,7 +26,7 @@
                 >>> pipdl.cleanup()
 
 
-            Download pandas version 2.2.0 for Windows and Python 3.13
+            Download pandas version 2.2.3 for Windows and Python 3.13
             into a specified download directory::
 
                 >>> from ppklib.pip import Download
@@ -56,9 +56,9 @@ from glob import glob
 from utils4.user_interface import ui
 # locals
 try:
-    from .utilities import utilities as ppkutils
+    from .libs.utilities import utilities as ppkutils
 except ImportError:
-    from ppklib.utilities import utilities as ppkutils
+    from libs.utilities import utilities as ppkutils
 
 
 class Download:
@@ -76,8 +76,9 @@ class Download:
             are implemented in this library, with the hyphens converted
             to underscores. For example: pip's ``--python-version`` is
             ``python_version``. Defaults to None.
-        reqfile (str, optional): Full path to the reqirements.txt file,
-            if applicable. Defaults to None.
+        reqfile (str, optional): Full path to the requirements.txt file,
+            if applicable. If using a requirements file, pass ``None``
+            to the ``name`` argument. Defaults to None.
         tmpdir (str, optional): Full path to the temp (download)
             directory. If None, a temp directory is automatically
             created. Defaults to None.
@@ -117,7 +118,7 @@ class Download:
     def cleanup(self) -> None:
         """Remove the temporary directory and all downloaded files.
 
-        Note:\
+        Note:
             Cleanup is only called automatically on pip error. Otherwise,
             it's the user's (or caller's) decision to call for a
             cleanup.
@@ -134,7 +135,7 @@ class Download:
 
         :Example:
             For example usage, please refer to this module's
-            :mod:`docstring <~ppklib.pip>`.
+            :mod:`docstring <ppklib.pip>`.
 
         """
         try:
@@ -210,9 +211,9 @@ class Download:
                 if b'no matching distribution' in stderr.lower():
                     # Fix the missing (library not found) issue.
                     self._fix_missing(msg=stderr)
-                else:
+                else:  # nocover
                     report_and_exit = True
-                if report_and_exit:
+                if report_and_exit:  # nocover
                     ui.print_alert('\n[ERROR]: An error was thrown from pip. Exiting.\n')
                     self._cleanup()
                     sys.exit(1)
@@ -230,10 +231,12 @@ class Download:
 
         """
         # pylint: disable=line-too-long  # Kept for clarity.
-        if not self._args.get('from_req'):
+        if not self._reqfile:
             pkg = list(filter(lambda x: x.lower().startswith(self._name), os.listdir(self._tmpdirname)))
             if pkg:
                 self._pkg = pkg[0]
+        else:
+            self._pkg = self._tmpdirname
 
     def _fix_missing(self, msg: bytes):
         """Update the requirements file to fix the missing binary library.
@@ -259,12 +262,12 @@ class Download:
             ui.print_(f'Modifying the requirements file and trying again for {pkg} ...',
                       fore='brightcyan')
             with open(self._reqfile, 'a', encoding='utf-8') as f:
-                f.write(f'--no-binary={pkg}')
+                f.write(f'--no-binary={pkg}\n')
             self._download()
 
     @staticmethod
     def _parse_err__no_matching_dist(msg: bytes) -> str:
-        """Extract the relevent package name from the error message.
+        """Extract the relevant package name from the error message.
 
         Args:
             msg (bytes): Error message directly from the

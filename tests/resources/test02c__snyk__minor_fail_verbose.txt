@@ -1,0 +1,10 @@
+
+numpy v1.16.3 has the following reported direct vulnerabilities:
+
+Severity  Title                                   Versions                 
+--------  -----                                   --------                 
+L         Buffer Overflow                         [,1.21.0rc1)             
+L         NULL Pointer Dereference                [0,1.22.2)               
+L         Denial of Service (DoS)                 [,1.22.0rc1)             
+L         Buffer Overflow                         [,1.22.0)                
+

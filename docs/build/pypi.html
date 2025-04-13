@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pypi.py - Wrappers for querying the PyPI APIs &mdash; ppklib - v0.1.0b1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/css/s5defs-rules.css?v=0345028d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="vtests.py - Vulnerability testing functionality" href="vtests.html" />
+    <link rel="prev" title="osv.py - Wrappers for querying the OSV API" href="osv.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ppklib
+              <img src="_static/s3dev_tri_white_sm.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library.html">Library API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pip.html">pip.py - Wrappers for various pip-based commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="osv.html">osv.py - Wrappers for querying the OSV API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pypi.py - Wrappers for querying the PyPI APIs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ppklib.pypi.PyPIQuery"><code class="docutils literal notranslate"><span class="pre">PyPIQuery</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.pypi.PyPIQuery.metadata"><code class="docutils literal notranslate"><span class="pre">PyPIQuery.metadata()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vtests.html">vtests.py - Vulnerability testing functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libs_utilities.html">Lib: utilities.py - Private internal utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_pypiapiobject.html">Object: pypiapiobject.py - Object for querying the PyPI JSON API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_osvapiobject.html">Object: osvapiobject.py - Object for querying the OSV API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects_severitycountsobject.html">Object: severitycountsobject.py - Object container for severity counts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libs_changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ppklib</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library.html">Library API Documentation</a></li>
+      <li class="breadcrumb-item active">pypi.py - Wrappers for querying the PyPI APIs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ppklib.pypi">
+<span id="pypi-py-wrappers-for-querying-the-pypi-apis"></span><h1>pypi.py - Wrappers for querying the PyPI APIs<a class="headerlink" href="#module-ppklib.pypi" title="Link to this heading"></a></h1>
+<dl class="field-list">
+<dt class="field-odd">Purpose<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This module provides functionality for interacting with PyPI,
+specifically, the Index and JSON APIs.</p>
+</dd>
+<dt class="field-even">Platform<span class="colon">:</span></dt>
+<dd class="field-even"><p>Linux/Windows | Python 3.8+</p>
+</dd>
+<dt class="field-odd">Developer<span class="colon">:</span></dt>
+<dd class="field-odd"><p>J Berendt</p>
+</dd>
+<dt class="field-even">Email<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="mailto:development&#37;&#52;&#48;s3dev&#46;uk">development<span>&#64;</span>s3dev<span>&#46;</span>uk</a></p>
+</dd>
+<dt class="field-odd">References<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The following links provide the requirements (specification)
+on which this module’s logic and API interactions are based:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://docs.pypi.org/api/index-api/">PyPI Index API</a></p></li>
+<li><p><a class="reference external" href="https://docs.pypi.org/api/json/">PyPI JSON API</a></p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt class="field-even">Comments<span class="colon">:</span></dt>
+<dd class="field-even"><p>n/a</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="ppklib.pypi.PyPIQuery">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PyPIQuery</span></span><a class="reference internal" href="_modules/ppklib/pypi.html#PyPIQuery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pypi.PyPIQuery" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for handling PyPI project queries.</p>
+<dl class="field-list">
+<dt class="field-odd">Examples<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Query a project’s latest metadata from PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib</span> <span class="kn">import</span> <span class="n">PyPIQuery</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pquery</span> <span class="o">=</span> <span class="n">PyPIQuery</span><span class="o">.</span><span class="n">metadata</span><span class="p">(</span><span class="s1">&#39;utils4&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Inspect the retrieved data.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pquery</span><span class="o">.</span><span class="n">data</span>
+<span class="go">{&#39;author&#39;: None,</span>
+<span class="go"> &#39;author_email&#39;: &#39;The Developers &lt;development@s3dev.uk&gt;&#39;,</span>
+<span class="go"> &#39;name&#39;: &#39;utils4&#39;,</span>
+<span class="go"> &#39;summary&#39;: &#39;A general utilities package for Python 3.7+.&#39;,</span>
+<span class="go"> &#39;requires_dist&#39;: [&#39;colorama&#39;],</span>
+<span class="go"> &#39;version&#39;: &#39;1.7.0&#39;,</span>
+<span class="go"> &#39;latest_version&#39;: &#39;1.7.0&#39;}</span>
+</pre></div>
+</div>
+<p>Query the metadata which is <em>specific to a release</em>, from PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib</span> <span class="kn">import</span> <span class="n">PyPIQuery</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pquery</span> <span class="o">=</span> <span class="n">PyPIQuery</span><span class="o">.</span><span class="n">metadata</span><span class="p">(</span><span class="n">wheel</span><span class="o">=</span><span class="s1">&#39;utils4-1.7.0-cp312-cp312-win_amd64.whl&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Inspect the retrieved data.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pquery</span><span class="o">.</span><span class="n">data</span>
+<span class="go">{&#39;author&#39;: None,</span>
+<span class="go"> &#39;author_email&#39;: &#39;The Developers &lt;development@s3dev.uk&gt;&#39;,</span>
+<span class="go"> &#39;name&#39;: &#39;utils4&#39;,</span>
+<span class="go"> &#39;summary&#39;: &#39;A general utilities package for Python 3.7+.&#39;,</span>
+<span class="go"> &#39;requires_dist&#39;: [&#39;colorama&#39;],</span>
+<span class="go"> &#39;version&#39;: &#39;1.7.0&#39;,</span>
+<span class="go"> &#39;yanked&#39;: False,</span>
+<span class="go"> &#39;yanked_reason&#39;: None,</span>
+<span class="go"> &#39;filename&#39;: &#39;utils4-1.7.0-cp312-cp312-win_amd64.whl&#39;,</span>
+<span class="go"> &#39;md5_digest&#39;: &#39;c8e0b67399cedb52ade57a2d33f52fe6&#39;,</span>
+<span class="go"> &#39;python_version&#39;: &#39;cp312&#39;,</span>
+<span class="go"> &#39;packagetype&#39;: &#39;bdist_wheel&#39;,</span>
+<span class="go"> &#39;requires_python&#39;: &#39;&gt;=3.7&#39;,</span>
+<span class="go"> &#39;upload_time_iso_8601&#39;: &#39;2025-01-04T17:13:14.409585Z&#39;,</span>
+<span class="go"> &#39;vulnerabilities&#39;: [],</span>
+<span class="go"> &#39;latest_version&#39;: &#39;1.7.0&#39;}</span>
+</pre></div>
+</div>
+<p>Query the metadata which is <em>specific to a release</em>, from PyPI
+(for a project with reported vulnerabilities):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib</span> <span class="kn">import</span> <span class="n">PyPIQuery</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span> <span class="o">=</span> <span class="s1">&#39;numpy-1.20.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pquery</span> <span class="o">=</span> <span class="n">PyPIQuery</span><span class="o">.</span><span class="n">metadata</span><span class="p">(</span><span class="n">wheel</span><span class="o">=</span><span class="n">wheel</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Inspect the reported vulnerabilities. (Example details have been truncated.)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pquery</span><span class="o">.</span><span class="n">vulns</span>
+<span class="go">[{&#39;aliases&#39;: [&#39;CVE-2021-33430&#39;],</span>
+<span class="go">  &#39;details&#39;: &#39;A Buffer Overflow vulnerability exists in NumPy 1.9.x in the ...&#39;,</span>
+<span class="go">  &#39;fixed_in&#39;: [&#39;1.21&#39;],</span>
+<span class="go">  &#39;id&#39;: &#39;GHSA-6p56-wp2h-9hxr&#39;,</span>
+<span class="go">  &#39;link&#39;: &#39;https://osv.dev/vulnerability/GHSA-6p56-wp2h-9hxr&#39;,</span>
+<span class="go">  &#39;source&#39;: &#39;osv&#39;,</span>
+<span class="go">  &#39;summary&#39;: None,</span>
+<span class="go">  &#39;withdrawn&#39;: None},</span>
+<span class="go"> {&#39;aliases&#39;: [&#39;CVE-2021-34141&#39;],</span>
+<span class="go">  &#39;details&#39;: &#39;Incomplete string comparison in the numpy.core component in ...&#39;,</span>
+<span class="go">  &#39;fixed_in&#39;: [&#39;1.22&#39;],</span>
+<span class="go">  &#39;id&#39;: &#39;GHSA-fpfv-jqm9-f5jm&#39;,</span>
+<span class="go">  &#39;link&#39;: &#39;https://osv.dev/vulnerability/GHSA-fpfv-jqm9-f5jm&#39;,</span>
+<span class="go">  &#39;source&#39;: &#39;osv&#39;,</span>
+<span class="go">  &#39;summary&#39;: None,</span>
+<span class="go">  &#39;withdrawn&#39;: None}]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.pypi.PyPIQuery.metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wheel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject" title="ppklib.objects.pypiapiobject.PyPIAPIObject"><span class="pre">PyPIAPIObject</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ppklib/pypi.html#PyPIQuery.metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.pypi.PyPIQuery.metadata" title="Link to this definition"></a></dt>
+<dd><p>Query a project’s metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the project to be queried.
+Defaults to None.</p></li>
+<li><p><strong>version</strong> (<em>str</em><em>, </em><em>optional</em>) – Return metadata specific to this
+version. Defaults to None.</p></li>
+<li><p><strong>wheel</strong> (<em>str</em><em>, </em><em>optional</em>) – Return release metadata specific to
+this wheel file. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ol class="arabic">
+<li><p>If only the <code class="docutils literal notranslate"><span class="pre">name</span></code> argument is provided, only the
+top-level metadata will be queried, for the <em>latest</em>
+version.</p></li>
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> arguments are provided,
+only the top-level metadata will be queried, for the
+specific version.</p></li>
+<li><p>However, if <em>all three</em> parameters are provided (or the
+only the wheel filename), the version-specific release
+metadata will be returned. (<strong>Preferred</strong>)</p>
+<p>This is the preferred method because if only the wheel
+filename is provided, the package name and version are
+parsed from the filename - this enables a simple function
+call with only a single argument (the wheel filename).</p>
+</li>
+</ol>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object containing the project metadata
+from PyPI. On error, None is returned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="objects_pypiapiobject.html#ppklib.objects.pypiapiobject.PyPIAPIObject" title="ppklib.objects.pypiapiobject.PyPIAPIObject">PyPIAPIObject</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="osv.html" class="btn btn-neutral float-left" title="osv.py - Wrappers for querying the OSV API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vtests.html" class="btn btn-neutral float-right" title="vtests.py - Vulnerability testing functionality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
