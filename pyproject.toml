@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ppklib"
+description = "The core functionality library for the ppk project."
+authors = [{name = "The Developers", email = "development@s3dev.uk"}]
+classifiers = [
+               "Environment :: Console",
+               "Development Status :: 4 - Beta",
+               "Intended Audience :: Developers",
+               "Operating System :: POSIX :: Linux",
+               "Operating System :: Microsoft :: Windows",
+               "Programming Language :: Python :: 3.10",
+               "Programming Language :: Python :: 3.11",
+               "Programming Language :: Python :: 3.12",
+               "Programming Language :: Python :: 3.13",
+               "Programming Language :: Python :: Implementation :: CPython",
+               "Topic :: Security",
+               "Topic :: Software Development",
+               "Topic :: Software Development :: Libraries",
+               "Topic :: Utilities",
+              ]
+dependencies = [
+                "beautifulsoup4",
+                "requests>=2.32.2",     # Per Snyk
+                "setuptools>=70.0.0",   # Per Snyk
+                "utils4>=1.5.0",
+               ]
+dynamic = ["version"]
+keywords = ["library", "security", "utility", "utilities"]
+license = "MIT"
+license-files = ["LICENSE"]
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.10"
+
+[project.urls]
+Documentation = "https://github.com/s3dev/ppklib"  # Coming soon
+Homepage = "https://github.com/s3dev/ppklib"
+Repository = "https://github.com/s3dev/ppklib"
+
+[tool.setuptools.dynamic]
+version = {attr = "ppklib._version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = []
+exclude = []
+
