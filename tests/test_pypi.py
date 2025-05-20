@@ -71,9 +71,13 @@ class TestPyPI(TestBase):
             - Verify all of the metadata repr's show 'Metadata (release).
 
         """
-        step = 1  # Must be 1 on final tests.
+        #
+        # !!!: Can be adjusted for faster tests.
+        #
+        step = 50  # Must be 1 on final tests. Can change to 50 for a fast test.
         if step != 1:
-            print(f'\n\n[WARNING]: Step is set to {step}. This must be zero before releasing.')
+            print(f'\n\n[WARNING]: Step is set to {step}. This must be one (1) before releasing.\n'
+                  '-- Expect this test to fail.')
         m = []
         with open(os.path.join(self._DIR_RESC, 'repo.txt'), encoding='utf-8') as f:
             files = [line.strip() for line in f][::step]

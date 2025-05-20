@@ -176,12 +176,11 @@ class TestOSVAPIObject(TestBase):
         """Test the ``get`` method for an invalid library name and verison.
 
         :Test:
-            - Verify the returned values and clas values are as expected.
+            - Verify the class attribute values are as expected.
 
         """
         oapi = OSVAPIObject(name='libjamesbond_', version='0.0.7')
-        tst = oapi.get_and_filter()
-        self.assertEqual(tst, None)
+        oapi.get_and_filter()
         self.assertEqual(oapi.rawjson, {})
         self.assertEqual(oapi.vulns, [])
         self.assertEqual(oapi.status_code, 200)

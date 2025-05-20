@@ -1,8 +1,13 @@
+************* Module test_vtests
+/var/devmt/py/ppklib_0.2.0.dev1/tests/test_vtests.py:139:19: E1101: Class 'VTests' has no 'osv' member (no-member)
+/var/devmt/py/ppklib_0.2.0.dev1/tests/test_vtests.py:156:19: E1101: Class 'VTests' has no 'osv' member (no-member)
+/var/devmt/py/ppklib_0.2.0.dev1/tests/test_vtests.py:176:19: E1101: Class 'VTests' has no 'osv' member (no-member)
+/var/devmt/py/ppklib_0.2.0.dev1/tests/test_vtests.py:195:19: E1101: Class 'VTests' has no 'osv' member (no-member)
 
 
 Report
 ======
-64 statements analysed.
+104 statements analysed.
 
 Statistics by type
 ------------------
@@ -14,7 +19,7 @@ Statistics by type
 +---------+-------+-----------+-----------+------------+---------+
 |class    |1      |1          |=          |100.00      |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
-|method   |6      |6          |=          |100.00      |0.00     |
+|method   |10     |10         |=          |100.00      |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
 |function |0      |NC         |NC         |0           |0        |
 +---------+-------+-----------+-----------+------------+---------+
@@ -33,7 +38,7 @@ External dependencies
 
 
 
-128 lines have been analyzed
+200 lines have been analyzed
 
 Raw metrics
 -----------
@@ -41,13 +46,13 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |67     |52.34 |67       |=          |
+|code      |107    |53.50 |NC       |NC         |
 +----------+-------+------+---------+-----------+
-|docstring |47     |36.72 |47       |=          |
+|docstring |75     |37.50 |NC       |NC         |
 +----------+-------+------+---------+-----------+
-|comment   |4      |3.12  |4        |=          |
+|comment   |4      |2.00  |NC       |NC         |
 +----------+-------+------+---------+-----------+
-|empty     |10     |7.81  |10       |=          |
+|empty     |14     |7.00  |NC       |NC         |
 +----------+-------+------+---------+-----------+
 
 
@@ -77,8 +82,19 @@ Messages by category
 +-----------+-------+---------+-----------+
 |warning    |0      |0        |0          |
 +-----------+-------+---------+-----------+
-|error      |0      |0        |0          |
+|error      |4      |4        |4          |
 +-----------+-------+---------+-----------+
+
+
+
+% errors / warnings by module
+-----------------------------
+
++------------+-------+--------+---------+-----------+
+|module      |error  |warning |refactor |convention |
++============+=======+========+=========+===========+
+|test_vtests |100.00 |0.00    |0.00     |0.00       |
++------------+-------+--------+---------+-----------+
 
 
 
@@ -88,10 +104,12 @@ Messages
 +-----------+------------+
 |message id |occurrences |
 +===========+============+
+|no-member  |4           |
++-----------+------------+
 
 
 
 
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+------------------------------------------------------------------
+Your code has been rated at 8.08/10 (previous run: 8.08/10, +0.00)
 

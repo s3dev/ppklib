@@ -2,7 +2,7 @@
 
 Report
 ======
-75 statements analysed.
+86 statements analysed.
 
 Statistics by type
 ------------------
@@ -14,7 +14,7 @@ Statistics by type
 +---------+-------+-----------+-----------+------------+---------+
 |class    |1      |1          |=          |100.00      |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
-|method   |11     |11         |=          |100.00      |0.00     |
+|method   |12     |12         |=          |100.00      |0.00     |
 +---------+-------+-----------+-----------+------------+---------+
 |function |0      |NC         |NC         |0           |0        |
 +---------+-------+-----------+-----------+------------+---------+
@@ -27,12 +27,14 @@ External dependencies
 
     base (test_objects_severitycountsobject)
     ppklib (test_objects_severitycountsobject)
+      \-objects 
+        \-severitycountsobject (test_objects_severitycountsobject)
     testlibs 
       \-msgs (test_objects_severitycountsobject)
 
 
 
-184 lines have been analyzed
+203 lines have been analyzed
 
 Raw metrics
 -----------
@@ -40,13 +42,13 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |83     |45.11 |83       |=          |
+|code      |94     |46.31 |94       |=          |
 +----------+-------+------+---------+-----------+
-|docstring |77     |41.85 |77       |=          |
+|docstring |84     |41.38 |84       |=          |
 +----------+-------+------+---------+-----------+
-|comment   |7      |3.80  |7        |=          |
+|comment   |7      |3.45  |7        |=          |
 +----------+-------+------+---------+-----------+
-|empty     |17     |9.24  |17       |=          |
+|empty     |18     |8.87  |18       |=          |
 +----------+-------+------+---------+-----------+
 
 

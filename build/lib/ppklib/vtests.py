@@ -7,6 +7,7 @@
             following tests, as contained in this module:
 
                 - MD5 checksum verification
+                - OSV security vulnerability checks
                 - Snyk security vulnerability checks
 
 :Platform:  Linux/Windows | Python 3.6+
@@ -28,8 +29,10 @@ from bs4 import BeautifulSoup
 from utils4.crypto import crypto
 # locals
 try:
+    from .osv import OSVQuery
     from .pypi import PyPIQuery
 except ImportError:
+    from osv import OSVQuery
     from pypi import PyPIQuery
 
 
@@ -41,6 +44,7 @@ class VTests:
         the following test methods:
 
             - :meth:`md5`
+            - :meth:`osv`
             - :meth:`snyk`
 
     """
@@ -95,6 +99,96 @@ class VTests:
             if md5c == md5p:
                 return (True,)
         return (False,)  # nocover  # Cannot force a fail in testing.
+
+    @staticmethod
+    def osv(*, fpath: str='', name: str='', version: str='', verbose: bool=True, **kwargs) -> tuple:
+        """Query the OSV database for any reported vulnerabilities.
+
+        Args:
+            fpath (str, optional): Complete path to the package (wheel) to be
+                verified. Defaults to ''.
+            name (str, optional): Package name. Defaults to ''.
+            version (str, optional): Package version to be tested. Defaults to ''.
+            verbose (bool, optional): Print all reported vulnerabilities
+                to the terminal on test completion. Defaults to True.
+
+        :Keyword Arguments:
+            None
+
+        :Example:
+
+            Check the OSV vulnerability database for any reported
+            vulnerabilities, for a library::
+
+                >>> from ppklib.vtests import VTests
+
+                >>> tst = VTests.osv(fpath='path/to/ppklib-0.1.0-py3-none-any.whl',
+                                     name='ppklib',
+                                     version='0.1.0')
+
+                # Check the result of the test; True == pass
+                >>> tst
+                (True,0, 0, 0, 0)
+
+
+            Check the OSV vulnerability database for any reported
+            vulnerabilities, for a library *with* vulnerabilities::
+
+                >>> from ppklib.vtests import VTests
+
+                >>> tst = VTests.osv(name='numpy', version='1.13.1')
+
+                numpy v1.13.1 has the following reported direct vulnerabilities, per OSV:
+
+                Severity  Title                                   Alias
+                --------  -----                                   -----
+                HIGH      NumPy NULL Pointer Dereference          CVE-2021-41495
+                MODERATE  NumPy Buffer Overflow (Disputed)        CVE-2021-33430
+                CRITICAL  Numpy Deserialization of Untrusted Data CVE-2019-6446
+                MODERATE  Buffer Copy without Checking Size of Input in NumPyCVE-2021-41496
+                MODERATE  Incorrect Comparison in NumPy           CVE-2021-34141
+                HIGH      Numpy missing input validation          CVE-2017-12852
+                HIGH      Numpy missing input validation          CVE-2017-12852
+                HIGH      Numpy missing input validation          CVE-2017-12852
+                HIGH      Numpy missing input validation          CVE-2017-12852
+                HIGH      Numpy missing input validation          CVE-2017-12852
+
+                # Check the result of the test.
+                >>> tst
+                (False, 1, 6, 3, 0)
+
+        Returns:
+            tuple: A tuple containing the verification flag, and
+            supporting data.
+
+            True if there are no reported 'Critical' or 'High'
+            vulnerabilities, otherwise False. The trailing elements are
+            the number of vulnerabilities found in each category, of
+            descending severity (i.e. C, H, M, L).
+
+            If the ``verbose`` flag is ``True``, the known
+            vulnerabilities are reported to the terminal on test
+            completion.
+
+        """
+        # pylint: disable=line-too-long
+        oquery = OSVQuery.vulnerabilities(name=name, version=version, wheel=os.path.basename(fpath))
+        counts = tuple(oquery.counts)
+        # End of processing summary.
+        if verbose and oquery.vulns:
+            tmpl = '{:10}{:40}{:25}'
+            print(f'\n{name} v{version} has the following reported direct vulnerabilities, per OSV:',
+                  '',
+                  tmpl.format('Severity', 'Title', 'Alias'),
+                  tmpl.format('--------', '-----', '-----'),
+                  sep='\n')
+            for v in oquery.vulns:
+                i = (v['severity'], v['summary'], v['aliases'][0])
+                print(tmpl.format(*i))
+            print()
+        if not any(oquery.vulns):
+            print(f'{name} v{version} has no reported direct vulnerabilities, per OSV')
+        return (not any(counts[:2]), *counts)  # Pass --> No C(ritical) or H(igh) vulnerabilities.
 
     @staticmethod
     def snyk(name: str, version: str, verbose: bool=True, **kwargs) -> tuple:
@@ -166,8 +260,9 @@ class VTests:
             the number of vulnerabilities found in each category, of
             descending severity (i.e. C, H, M, L).
 
-            If the ``verbose`` flag is ``True``, the known vulnerabilities
-            are reported to the terminal on test completion.
+            If the ``verbose`` flag is ``True``, the known
+            vulnerabilities are reported to the terminal on test
+            completion.
 
         """
         # pylint: disable=line-too-long
@@ -211,7 +306,7 @@ class VTests:
         # End of processing summary.
         if verbose and dvset:
             tmpl = '{:10}{:40}{:25}'
-            print(f'\n{name} v{version} has the following reported direct vulnerabilities:',
+            print(f'\n{name} v{version} has the following reported direct vulnerabilities, per Snyk:',
                   '',
                   tmpl.format('Severity', 'Title', 'Versions'),
                   tmpl.format('--------', '-----', '--------'),
@@ -220,5 +315,5 @@ class VTests:
                 print(tmpl.format(*i))
             print()
         if not any(vuln_n):
-            print(f'{name} v{version} has no reported direct vulnerabilities.')
+            print(f'{name} v{version} has no reported direct vulnerabilities, per Snyk')
         return (not any(vuln_n[:2]), *vuln_n)  # Pass --> No C(ritical) or H(igh) vulnerabilities.

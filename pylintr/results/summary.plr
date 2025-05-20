@@ -21,6 +21,6 @@ tests_test_objects_severitycountsobject.plr: 10.00/10
 tests_test_osv.plr: 10.00/10
 tests_test_pip.plr: 10.00/10
 tests_test_pypi.plr: 10.00/10
-tests_test_vtests.plr: 10.00/10
+tests_test_vtests.plr: 8.08/10
 ------------------------
-Run date: Sun 4 May 19:39:14 BST 2025
+Run date: Tue 20 May 14:05:11 BST 2025

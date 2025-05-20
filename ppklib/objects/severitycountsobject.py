@@ -54,6 +54,20 @@ class SeverityCountsObject:
         self._m = 0  # Moderate
         self._set(vulns=vulns)
 
+    def __iter__(self):
+        """Provide an iterable type.
+
+        This method is used for cases like::
+
+            tuple(SeverityCountsObject)
+
+        Yields:
+            int: Severity counts in *descending* severity order.
+
+        """
+        for i in ('critical', 'high', 'moderate', 'low'):
+            yield getattr(self, i)
+
     def __repr__(self) -> str:
         """String representation of the object's contents."""
         name = self.__class__.__name__

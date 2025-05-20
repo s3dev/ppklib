@@ -170,6 +170,25 @@ class TestSeverityCountsObject(TestBase):
         exp = '<SeverityCountsObject> C: 1, H: 6, M: 3, L: 0 (Total: 10)'
         self.assertEqual(exp, tst)
 
+    def test05a__iter__numpy(self):
+        """Test the __iter__ method to ensure correct object.
+
+        :Test:
+            - Verify the ``__iter__`` method creates the expected
+              iterable object.
+
+        """
+        w = 'numpy-1.13.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'
+        oquery = OSVQuery.vulnerabilities(wheel=w)
+        tst1 = tuple(oquery.counts)
+        tst2 = list(oquery.counts)
+        exp1 = (1, 6, 3, 0)
+        exp2 = [1, 6, 3, 0]
+        with self.subTest('Tuple'):
+            self.assertEqual(exp1, tst1)
+        with self.subTest('List'):
+            self.assertEqual(exp2, tst2)
+
 
 # %% Test helper methods
 

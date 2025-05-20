@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ppklib.objects.severitycountsobject &mdash; ppklib - v0.1.0b1 Documentation</title>
+  <title>ppklib.objects.severitycountsobject &mdash; ppklib - v0.2.0.dev1 Documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="../../../_static/documentation_options.js?v=4cac92f7"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,6 +133,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_m</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Moderate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vulns</span><span class="o">=</span><span class="n">vulns</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Provide an iterable type.</span>
+
+<span class="sd">        This method is used for cases like::</span>
+
+<span class="sd">            tuple(SeverityCountsObject)</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            int: Severity counts in *descending* severity order.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;critical&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span> <span class="s1">&#39;moderate&#39;</span><span class="p">,</span> <span class="s1">&#39;low&#39;</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of the object&#39;s contents.&quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
@@ -201,7 +215,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.2.0.dev1.</p>
   </div>
 
    

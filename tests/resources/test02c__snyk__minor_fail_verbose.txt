@@ -1,5 +1,5 @@
 
-numpy v1.16.3 has the following reported direct vulnerabilities:
+numpy v1.16.3 has the following reported direct vulnerabilities, per Snyk:
 
 Severity  Title                                   Versions                 
 --------  -----                                   --------                 

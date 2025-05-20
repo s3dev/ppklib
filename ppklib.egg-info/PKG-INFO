@@ -1,9 +1,9 @@
 Metadata-Version: 2.4
 Name: ppklib
-Version: 0.1.0b1
+Version: 0.2.0.dev1
 Summary: The core functionality library for the ppk project.
 Author-email: The Developers <development@s3dev.uk>
-License-Expression: GPL-3.0-only
+License-Expression: GPL-3.0-or-later
 Project-URL: Documentation, https://ppklib.readthedocs.io/en/latest
 Project-URL: Homepage, https://github.com/s3dev/ppklib
 Project-URL: Repository, https://github.com/s3dev/ppklib
@@ -31,6 +31,7 @@ Requires-Dist: setuptools>=70.0.0
 Requires-Dist: utils4>=1.5.0
 Dynamic: license-file
 
+
 # ppklib - Python Package Check Library
 
 [![PyPI - Version](https://img.shields.io/pypi/v/ppklib?style=flat-square)](https://pypi.org/project/ppklib)
@@ -50,7 +51,7 @@ The core functionality library behind the [ppk](https://github.com/s3dev/ppk) pr
 ## Overview
 This library provides the lower-level core functionality to the primary [`ppk`](https://github.com/s3dev/ppk) project.
 
-As of `ppk` version 0.5.0, the core functionality has been moved out of `ppk` into this library to enable other projects to take advantage of `ppk`'s vulnerability checking toolset. 
+As of `ppk` version 0.6.0, the core functionality has been moved out of `ppk` into this library to enable other projects to take advantage of `ppk`'s vulnerability checking toolset. 
 
 The following vulnerability tests are available:
  - **MD5 checksum:** The hash of the downloaded file is compared with the hash for the same file, as stored by PyPI.
@@ -63,7 +64,7 @@ The following vulnerability tests are available:
 ## Getting Started
 
 ### Downloading and installing
-Likely, the easiest method for downloading and installing `ppklib` is through `pip`, *after* activating the appropriate virtual environment, as:
+The `ppklib` library is available on [PyPI](https://pypi.org/project/ppklib/). Likely, the easiest method for downloading and installing `ppklib` is through `pip` *after* activating the appropriate virtual environment, as:
 ```
 pip install ppklib
 ```
@@ -71,10 +72,10 @@ pip install ppklib
 > **Note:**
 > If using the `ppk` project, this library *must* be installed into the same virtual environment which is used to run `ppk`.
 
-### Basic usage
+## Basic usage
 Basic example usage follows. For further detail and guidance please refer to the [project's documentation](https://ppklib.readthedocs.io/en/latest/).
 
-**Download `pandas` (and dependencies) via `pip`:**
+### Download `pandas` (and dependencies) via `pip`
 ```python
 from ppklib.pip import Download
 
@@ -88,7 +89,7 @@ pipdl.pkgpath
 pipdl.cleanup()
 ```
 
-**Download `pandas` version 2.2.3 for Windows and Python 3.13 into a specified download directory:**
+### Download `pandas` version 2.2.3 for Windows and Python 3.13 into a specified download directory
 
 ```python
 from ppklib.pip import Download
@@ -105,4 +106,99 @@ pipdl.pkgpath
 # Optional cleanup after the wheels are no longer needed.
 pipdl.cleanup()
 ```
+
+### Perform a vulnerability scan against the OSV database
+A Python package can be easily security scanned against OSV's vulnerability database. The `vulns` class property
+contains a list of dictionaries containing a summary of any reported vulnerabilities. Additionally, the `counts` property contains the number of vulnerabilities reported, by severity class.
+
+```python
+>>> from ppklib import OSVQuery
+
+>>> oquery = OSVQuery.vulnerabilities(name='numpy', version='1.20.0')
+
+>>> # Inspect the retrieved vulnerabilities.
+>>> oquery.vulns
+[{'id': 'GHSA-6p56-wp2h-9hxr',
+  'summary': 'NumPy Buffer Overflow (Disputed)',
+  'aliases': ['CVE-2021-33430', 'PYSEC-2021-854'],
+  'published': '2022-01-07T00:09:39Z',
+  'modified': '2024-09-26T15:01:21.525444Z',
+  'severity': 'MODERATE',
+  'vectors': [{'CVSS_V3': 'CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H'},
+   {'CVSS_V4': 'CVSS:4.0/AV:N/AC:H/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N'}]},
+ {'id': 'GHSA-fpfv-jqm9-f5jm',
+  'summary': 'Incorrect Comparison in NumPy',
+  'aliases': ['CVE-2021-34141', 'PYSEC-2021-855'],
+  'published': '2021-12-18T00:00:41Z',
+  'modified': '2023-11-08T04:06:07.388275Z',
+  'severity': 'MODERATE',
+  'vectors': [{'CVSS_V3': 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L'}]}]
+
+>>> # Check vulnerability counts
+>>> oquery.counts
+<SeverityCountsObject> C: 0, H: 0, M: 2, L: 0 (Total: 2)
+
+```
+
+### Query PyPI for a project's metadata
+To retrieve *version specific* metadata for a project (including any reported OSV vulnerabilities) the following example can be used.
+
+**Options:**
+Either a wheel filename *or* the project's name *and* version can be provided to the constructor for *version-specific* metadata. If only the name is provided, only top-level metadata will be retrieved for the *latest* version.
+
+In the example below, the wheel's filename is provided.
+
+```python
+>>> from ppklib import PyPIQuery
+
+>>> wheel = 'numpy-1.20.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'
+>>> pquery = PyPIQuery.metadata(wheel=wheel)
+
+>>> # Display the project's metadata.
+>>> pquery.data
+{'author': 'Travis E. Oliphant et al.',
+ 'author_email': '',
+ 'name': 'numpy',
+ 'requires_dist': None,
+ 'summary': 'NumPy is the fundamental package for array computing with Python.',
+ 'version': '1.20.0',
+ 'license': 'BSD',
+ 'vulnerabilities': [{'aliases': ['CVE-2021-33430'],
+   'details': 'A Buffer Overflow vulnerability exists in NumPy 1.9.x in the PyArray_NewFromDescr_int function of ctors.c when specifying arrays of large dimensions (over 32) from Python code, which could let a malicious user cause a Denial of Service.\n\nNOTE: The vendor does not agree this is a vulnerability; In (very limited) circumstances a user may be able provoke the buffer overflow, the user is most likely already privileged to at least provoke denial of service by exhausting memory. Triggering this further requires the use of uncommon API (complicated structured dtypes), which is very unlikely to be available to an unprivileged user.',
+   'fixed_in': ['1.21'],
+   'id': 'GHSA-6p56-wp2h-9hxr',
+   'link': 'https://osv.dev/vulnerability/GHSA-6p56-wp2h-9hxr',
+   'source': 'osv',
+   'summary': None,
+   'withdrawn': None},
+  {'aliases': ['CVE-2021-34141'],
+   'details': 'Incomplete string comparison in the numpy.core component in NumPy1.9.x, which allows attackers to fail the APIs via constructing specific string objects.',
+   'fixed_in': ['1.22'],
+   'id': 'GHSA-fpfv-jqm9-f5jm',
+   'link': 'https://osv.dev/vulnerability/GHSA-fpfv-jqm9-f5jm',
+   'source': 'osv',
+   'summary': None,
+   'withdrawn': None}],
+ 'latest_version': '2.2.6'}
+
+>>> # Inspect the reported vulnerabilities (only).
+>>> pquery.vulns
+[{'aliases': ['CVE-2021-33430'],
+  'details': 'A Buffer Overflow vulnerability exists in NumPy 1.9.x in the ...',
+  'fixed_in': ['1.21'],
+  'id': 'GHSA-6p56-wp2h-9hxr',
+  'link': 'https://osv.dev/vulnerability/GHSA-6p56-wp2h-9hxr',
+  'source': 'osv',
+  'summary': None,
+  'withdrawn': None},
+ {'aliases': ['CVE-2021-34141'],
+  'details': 'Incomplete string comparison in the numpy.core component in ...',
+  'fixed_in': ['1.22'],
+  'id': 'GHSA-fpfv-jqm9-f5jm',
+  'link': 'https://osv.dev/vulnerability/GHSA-fpfv-jqm9-f5jm',
+  'source': 'osv',
+  'summary': None,
+  'withdrawn': None}]
+
+``` 
 

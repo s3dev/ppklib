@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>vtests.py - Vulnerability testing functionality &mdash; ppklib - v0.1.0b1 Documentation</title>
+  <title>vtests.py - Vulnerability testing functionality &mdash; ppklib - v0.2.0.dev1 Documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=de2d8b2c"></script>
+      <script src="_static/documentation_options.js?v=4cac92f7"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,6 +55,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">vtests.py - Vulnerability testing functionality</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ppklib.vtests.VTests"><code class="docutils literal notranslate"><span class="pre">VTests</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ppklib.vtests.VTests.md5"><code class="docutils literal notranslate"><span class="pre">VTests.md5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ppklib.vtests.VTests.osv"><code class="docutils literal notranslate"><span class="pre">VTests.osv()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ppklib.vtests.VTests.snyk"><code class="docutils literal notranslate"><span class="pre">VTests.snyk()</span></code></a></li>
 </ul>
 </li>
@@ -104,6 +105,7 @@ following tests, as contained in this module:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>MD5 checksum verification</p></li>
+<li><p>OSV security vulnerability checks</p></li>
 <li><p>Snyk security vulnerability checks</p></li>
 </ul>
 </div></blockquote>
@@ -136,6 +138,7 @@ the following test methods:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><a class="reference internal" href="#ppklib.vtests.VTests.md5" title="ppklib.vtests.VTests.md5"><code class="xref py py-meth docutils literal notranslate"><span class="pre">md5()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#ppklib.vtests.VTests.osv" title="ppklib.vtests.VTests.osv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">osv()</span></code></a></p></li>
 <li><p><a class="reference internal" href="#ppklib.vtests.VTests.snyk" title="ppklib.vtests.VTests.snyk"><code class="xref py py-meth docutils literal notranslate"><span class="pre">snyk()</span></code></a></p></li>
 </ul>
 </div></blockquote>
@@ -177,6 +180,83 @@ verified.</p></li>
 MD5 hashes match, otherwise False.</p>
 <p>The second element of the tuple is empty, but used for
 consistency in test return values.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ppklib.vtests.VTests.osv">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">osv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/ppklib/vtests.html#VTests.osv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ppklib.vtests.VTests.osv" title="Link to this definition"></a></dt>
+<dd><p>Query the OSV database for any reported vulnerabilities.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fpath</strong> (<em>str</em><em>, </em><em>optional</em>) – Complete path to the package (wheel) to be
+verified. Defaults to ‘’.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Package name. Defaults to ‘’.</p></li>
+<li><p><strong>version</strong> (<em>str</em><em>, </em><em>optional</em>) – Package version to be tested. Defaults to ‘’.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print all reported vulnerabilities
+to the terminal on test completion. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Check the OSV vulnerability database for any reported
+vulnerabilities, for a library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib.vtests</span> <span class="kn">import</span> <span class="n">VTests</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tst</span> <span class="o">=</span> <span class="n">VTests</span><span class="o">.</span><span class="n">osv</span><span class="p">(</span><span class="n">fpath</span><span class="o">=</span><span class="s1">&#39;path/to/ppklib-0.1.0-py3-none-any.whl&#39;</span><span class="p">,</span>
+<span class="go">                     name=&#39;ppklib&#39;,</span>
+<span class="go">                     version=&#39;0.1.0&#39;)</span>
+
+<span class="go"># Check the result of the test; True == pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tst</span>
+<span class="go">(True,0, 0, 0, 0)</span>
+</pre></div>
+</div>
+<p>Check the OSV vulnerability database for any reported
+vulnerabilities, for a library <em>with</em> vulnerabilities:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ppklib.vtests</span> <span class="kn">import</span> <span class="n">VTests</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tst</span> <span class="o">=</span> <span class="n">VTests</span><span class="o">.</span><span class="n">osv</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;numpy&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;1.13.1&#39;</span><span class="p">)</span>
+
+<span class="go">numpy v1.13.1 has the following reported direct vulnerabilities, per OSV:</span>
+
+<span class="go">Severity  Title                                   Alias</span>
+<span class="go">--------  -----                                   -----</span>
+<span class="go">HIGH      NumPy NULL Pointer Dereference          CVE-2021-41495</span>
+<span class="go">MODERATE  NumPy Buffer Overflow (Disputed)        CVE-2021-33430</span>
+<span class="go">CRITICAL  Numpy Deserialization of Untrusted Data CVE-2019-6446</span>
+<span class="go">MODERATE  Buffer Copy without Checking Size of Input in NumPyCVE-2021-41496</span>
+<span class="go">MODERATE  Incorrect Comparison in NumPy           CVE-2021-34141</span>
+<span class="go">HIGH      Numpy missing input validation          CVE-2017-12852</span>
+<span class="go">HIGH      Numpy missing input validation          CVE-2017-12852</span>
+<span class="go">HIGH      Numpy missing input validation          CVE-2017-12852</span>
+<span class="go">HIGH      Numpy missing input validation          CVE-2017-12852</span>
+<span class="go">HIGH      Numpy missing input validation          CVE-2017-12852</span>
+
+<span class="go"># Check the result of the test.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tst</span>
+<span class="go">(False, 1, 6, 3, 0)</span>
+</pre></div>
+</div>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>A tuple containing the verification flag, and
+supporting data.</p>
+<p>True if there are no reported ‘Critical’ or ‘High’
+vulnerabilities, otherwise False. The trailing elements are
+the number of vulnerabilities found in each category, of
+descending severity (i.e. C, H, M, L).</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">verbose</span></code> flag is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the known
+vulnerabilities are reported to the terminal on test
+completion.</p>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -253,8 +333,9 @@ supporting data.</p>
 vulnerabilities, otherwise False. The trailing elements are
 the number of vulnerabilities found in each category, of
 descending severity (i.e. C, H, M, L).</p>
-<p>If the <code class="docutils literal notranslate"><span class="pre">verbose</span></code> flag is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the known vulnerabilities
-are reported to the terminal on test completion.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">verbose</span></code> flag is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the known
+vulnerabilities are reported to the terminal on test
+completion.</p>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -278,7 +359,7 @@ are reported to the terminal on test completion.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.1.0b1.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.2.0.dev1.</p>
   </div>
 
    

@@ -5,14 +5,13 @@ LICENSE
 README.md
 build.sh
 pyproject.toml
-requirements.txt
-dist/ppklib-0.1.0b1.tar.gz
 docs/.constants.config
 docs/create.sh
 docs/requirements.txt
 docs/spellcheck.sh
 docs/update.sh
 docs/build/.buildinfo
+docs/build/.buildinfo.bak
 docs/build/contact.html
 docs/build/genindex.html
 docs/build/index.html
@@ -228,8 +227,10 @@ tests/resources/test03b__get_and_filter__name_version.p
 tests/resources/test03b__get_and_filter__wheel.p
 tests/resources/test03c__get_and_filter__name_version.p
 tests/resources/test03c__get_and_filter__wheel.p
+tests/resources/test03c__osv__minor_fail_verbose.txt
 tests/resources/test03d__get_and_filter__counts.p
 tests/resources/test03d__get_and_filter__vulns.p
+tests/resources/test03d__osv__major_fail_verbose.txt
 tests/resources/test04a__get_and_filter__long_license.p
 tests/testlibs/msgs.py
 tests/testlibs/utilities.py

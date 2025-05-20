@@ -1,0 +1,16 @@
+
+numpy v1.13.1 has the following reported direct vulnerabilities, per OSV:
+
+Severity  Title                                   Alias                    
+--------  -----                                   -----                    
+HIGH      NumPy NULL Pointer Dereference          CVE-2021-41495           
+MODERATE  NumPy Buffer Overflow (Disputed)        CVE-2021-33430           
+CRITICAL  Numpy Deserialization of Untrusted Data CVE-2019-6446            
+MODERATE  Buffer Copy without Checking Size of Input in NumPyCVE-2021-41496           
+MODERATE  Incorrect Comparison in NumPy           CVE-2021-34141           
+HIGH      Numpy missing input validation          CVE-2017-12852           
+HIGH      Numpy missing input validation          CVE-2017-12852           
+HIGH      Numpy missing input validation          CVE-2017-12852           
+HIGH      Numpy missing input validation          CVE-2017-12852           
+HIGH      Numpy missing input validation          CVE-2017-12852           
+

@@ -2,7 +2,7 @@
 
 Report
 ======
-136 statements analysed.
+135 statements analysed.
 
 Statistics by type
 ------------------
@@ -27,13 +27,14 @@ External dependencies
 
     base (test_objects_osvapiobject)
     ppklib 
-      \-objects (test_objects_osvapiobject)
+      \-objects 
+        \-osvapiobject (test_objects_osvapiobject)
     testlibs 
       \-msgs (test_objects_osvapiobject)
 
 
 
-322 lines have been analyzed
+321 lines have been analyzed
 
 Raw metrics
 -----------
@@ -41,13 +42,13 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |139    |43.17 |139      |=          |
+|code      |138    |42.99 |NC       |NC         |
 +----------+-------+------+---------+-----------+
-|docstring |148    |45.96 |148      |=          |
+|docstring |148    |46.11 |NC       |NC         |
 +----------+-------+------+---------+-----------+
-|comment   |12     |3.73  |12       |=          |
+|comment   |12     |3.74  |NC       |NC         |
 +----------+-------+------+---------+-----------+
-|empty     |23     |7.14  |23       |=          |
+|empty     |23     |7.17  |NC       |NC         |
 +----------+-------+------+---------+-----------+
 
 
