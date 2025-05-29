@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ppklib.pip &mdash; ppklib - v0.2.0.dev1 Documentation</title>
+  <title>ppklib.pip &mdash; ppklib - v0.2.0rc1 Documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=4cac92f7"></script>
+      <script src="../../_static/documentation_options.js?v=902314af"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -317,15 +317,16 @@
 
 <span class="sd">        For case agnostic searching, (e.g. in the case of libraries such</span>
 <span class="sd">        as &#39;sqlalchemy&#39; which downloads as &#39;SQLAlchemy&#39;), the search is</span>
-<span class="sd">        carried out using a :func:`filter` applied to :func:`os.listdir`.</span>
+<span class="sd">        carried out using a :func:`filter` applied to the sorted return</span>
+<span class="sd">        value from :func:`os.listdir`.</span>
 
 <span class="sd">        If the target package is found in the download directory, the</span>
 <span class="sd">        filename is stored to the :attr:`_pkg`: attribute.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># pylint: disable=line-too-long  # Kept for clarity.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reqfile</span><span class="p">:</span>
-            <span class="n">pkg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tmpdirname</span><span class="p">)))</span>
+            <span class="n">pkg</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span><span class="p">),</span>
+                               <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tmpdirname</span><span class="p">))))</span>
             <span class="k">if</span> <span class="n">pkg</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_pkg</span> <span class="o">=</span> <span class="n">pkg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -417,7 +418,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.2.0.dev1.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.2.0rc1.</p>
   </div>
 
    

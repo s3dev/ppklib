@@ -224,15 +224,16 @@ class Download:
 
         For case agnostic searching, (e.g. in the case of libraries such
         as 'sqlalchemy' which downloads as 'SQLAlchemy'), the search is
-        carried out using a :func:`filter` applied to :func:`os.listdir`.
+        carried out using a :func:`filter` applied to the sorted return
+        value from :func:`os.listdir`.
 
         If the target package is found in the download directory, the
         filename is stored to the :attr:`_pkg`: attribute.
 
         """
-        # pylint: disable=line-too-long  # Kept for clarity.
         if not self._reqfile:
-            pkg = list(filter(lambda x: x.lower().startswith(self._name), os.listdir(self._tmpdirname)))
+            pkg = tuple(filter(lambda x: x.lower().startswith(self._name + '-'),
+                               sorted(os.listdir(self._tmpdirname))))
             if pkg:
                 self._pkg = pkg[0]
         else:

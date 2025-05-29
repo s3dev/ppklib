@@ -74,7 +74,7 @@ class TestPyPI(TestBase):
         #
         # !!!: Can be adjusted for faster tests.
         #
-        step = 50  # Must be 1 on final tests. Can change to 50 for a fast test.
+        step = 1  # Must be 1 on final tests. Can change to 50 for a fast test.
         if step != 1:
             print(f'\n\n[WARNING]: Step is set to {step}. This must be one (1) before releasing.\n'
                   '-- Expect this test to fail.')

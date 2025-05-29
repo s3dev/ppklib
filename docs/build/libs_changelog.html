@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Change Log &mdash; ppklib - v0.2.0.dev1 Documentation</title>
+  <title>Change Log &mdash; ppklib - v0.2.0rc1 Documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=4cac92f7"></script>
+      <script src="_static/documentation_options.js?v=902314af"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -79,6 +79,27 @@
   <section id="module-ppklib.libs.changelog">
 <span id="change-log"></span><h1>Change Log<a class="headerlink" href="#module-ppklib.libs.changelog" title="Link to this heading"></a></h1>
 <ul>
+<li><p><strong>0.2.0rc1 - Minor fixes from post-integration testing.</strong><span> by </span><em>j_berendt</em><span> at </span><em>2025-05-29 09:46:01</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PPKLIB</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span> <span class="n">Add</span> <span class="n">hyphen</span> <span class="n">to</span> <span class="n">package</span> <span class="n">search</span>
+<span class="o">-</span> <span class="n">A</span> <span class="n">hyphen</span> <span class="n">has</span> <span class="n">been</span> <span class="n">added</span> <span class="n">to</span> <span class="n">the</span> <span class="n">package</span> <span class="n">search</span> <span class="n">name</span> <span class="n">to</span> <span class="n">ensure</span> <span class="n">the</span> <span class="n">target</span>
+  <span class="n">package</span> <span class="ow">is</span> <span class="n">matched</span><span class="p">,</span> <span class="n">rather</span> <span class="n">than</span> <span class="n">a</span> <span class="n">package</span> <span class="n">starting</span> <span class="k">with</span> <span class="n">the</span> <span class="n">target</span><span class="s1">&#39;s</span>
+  <span class="n">name</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">Additionally</span><span class="p">,</span> <span class="n">the</span> <span class="k">return</span> <span class="n">value</span> <span class="kn">from</span> <span class="nn">os.listdir</span> <span class="ow">is</span> <span class="n">now</span> <span class="nb">sorted</span> <span class="n">to</span> <span class="n">help</span>
+  <span class="n">the</span> <span class="n">target</span> <span class="n">name</span> <span class="n">be</span> <span class="n">at</span> <span class="n">the</span> <span class="n">top</span> <span class="n">of</span> <span class="n">the</span> <span class="n">filtered</span> <span class="nb">tuple</span><span class="p">,</span> <span class="k">as</span> <span class="n">the</span> <span class="n">ordering</span>
+  <span class="kn">from</span> <span class="nn">os.listdir</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">artifact</span> <span class="n">of</span> <span class="n">the</span> <span class="n">filesystem</span><span class="o">.</span>
+
+<span class="n">PPKLIB</span><span class="o">-</span><span class="mi">5</span><span class="p">:</span> <span class="n">Add</span> <span class="n">space</span> <span class="n">between</span> <span class="n">vulnerability</span> <span class="n">title</span> <span class="ow">and</span> <span class="n">version</span><span class="o">/</span><span class="n">alias</span>
+<span class="o">-</span> <span class="n">A</span> <span class="n">space</span> <span class="k">as</span> <span class="n">been</span> <span class="n">added</span> <span class="n">between</span> <span class="n">the</span> <span class="n">title</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">version</span><span class="o">/</span><span class="n">alias</span> <span class="n">to</span> <span class="n">help</span>
+  <span class="n">provide</span> <span class="n">distinction</span> <span class="k">for</span> <span class="n">long</span> <span class="n">titles</span><span class="o">.</span>
+
+<span class="n">Testing</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">All</span> <span class="n">tests</span> <span class="n">complete</span> <span class="n">successfully</span> <span class="k">with</span> <span class="mi">100</span><span class="o">%</span> <span class="n">code</span> <span class="n">coverage</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">Pylint</span> <span class="n">run</span> <span class="n">successfully</span> <span class="k">with</span> <span class="nb">all</span> <span class="n">modules</span> <span class="n">reporting</span> <span class="mi">10</span><span class="o">/</span><span class="mf">10.</span>
+
+<span class="n">Released</span><span class="p">:</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">29</span>
+</pre></div>
+</div>
+</li>
 <li><p><strong>0.2.0.dev1 - Addition of the OSV vulnerability test.</strong><span> by </span><em>j_berendt</em><span> at </span><em>2025-05-20 12:40:07</em></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">**</span> <span class="n">Development</span> <span class="n">release</span> <span class="k">for</span> <span class="n">ppk</span> <span class="n">integration</span> <span class="o">**</span>
 
@@ -138,7 +159,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.2.0.dev1.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.2.0rc1.</p>
   </div>
 
    

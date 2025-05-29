@@ -176,7 +176,7 @@ class VTests:
         counts = tuple(oquery.counts)
         # End of processing summary.
         if verbose and oquery.vulns:
-            tmpl = '{:10}{:40}{:25}'
+            tmpl = '{:10}{:39} {:25}'
             print(f'\n{name} v{version} has the following reported direct vulnerabilities, per OSV:',
                   '',
                   tmpl.format('Severity', 'Title', 'Alias'),
@@ -305,7 +305,7 @@ class VTests:
                 break  # Stop after version is found.
         # End of processing summary.
         if verbose and dvset:
-            tmpl = '{:10}{:40}{:25}'
+            tmpl = '{:10}{:39} {:25}'
             print(f'\n{name} v{version} has the following reported direct vulnerabilities, per Snyk:',
                   '',
                   tmpl.format('Severity', 'Title', 'Versions'),
