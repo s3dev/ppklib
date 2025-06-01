@@ -25,11 +25,8 @@ External dependencies
 ---------------------
 ::
 
-    base (test_osv)
     ppklib 
-      \-osv (test_osv)
-    testlibs 
-      \-msgs (test_osv)
+      \-osv (tests.test_osv)
 
 
 

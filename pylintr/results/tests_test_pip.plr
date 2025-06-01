@@ -25,11 +25,8 @@ External dependencies
 ---------------------
 ::
 
-    base (test_pip)
     ppklib 
-      \-pip (test_pip)
-    testlibs 
-      \-msgs (test_pip)
+      \-pip (tests.test_pip)
 
 
 

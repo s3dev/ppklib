@@ -25,12 +25,9 @@ External dependencies
 ---------------------
 ::
 
-    base (test_libs_utilities)
     ppklib 
       \-libs 
-        \-utilities (test_libs_utilities)
-    testlibs 
-      \-msgs (test_libs_utilities)
+        \-utilities (tests.test_libs_utilities)
 
 
 

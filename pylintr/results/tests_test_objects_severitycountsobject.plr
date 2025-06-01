@@ -25,12 +25,9 @@ External dependencies
 ---------------------
 ::
 
-    base (test_objects_severitycountsobject)
-    ppklib (test_objects_severitycountsobject)
+    ppklib (tests.test_objects_severitycountsobject)
       \-objects 
-        \-severitycountsobject (test_objects_severitycountsobject)
-    testlibs 
-      \-msgs (test_objects_severitycountsobject)
+        \-severitycountsobject (tests.test_objects_severitycountsobject)
 
 
 

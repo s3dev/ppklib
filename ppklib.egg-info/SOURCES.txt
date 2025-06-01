@@ -189,6 +189,7 @@ pylintr/results/tests_test_pypi.plr
 pylintr/results/tests_test_vtests.plr
 tests/.coverage
 tests/.coveragerc
+tests/__init__.py
 tests/base.py
 tests/coverage.sh
 tests/run.sh

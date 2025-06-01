@@ -25,6 +25,10 @@ External dependencies
 ---------------------
 ::
 
+    ppklib 
+      \-libs 
+        \-config (ppklib.objects.pypiapiobject)
+        \-utilities (ppklib.objects.pypiapiobject)
     requests (ppklib.objects.pypiapiobject)
     utils4 
       \-user_interface (ppklib.objects.pypiapiobject)

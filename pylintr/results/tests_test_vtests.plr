@@ -25,11 +25,8 @@ External dependencies
 ---------------------
 ::
 
-    base (test_vtests)
     ppklib 
-      \-vtests (test_vtests)
-    testlibs 
-      \-msgs (test_vtests)
+      \-vtests (tests.test_vtests)
 
 
 
@@ -77,7 +74,7 @@ Messages by category
 +-----------+-------+---------+-----------+
 |warning    |0      |0        |0          |
 +-----------+-------+---------+-----------+
-|error      |0      |4        |4          |
+|error      |0      |0        |0          |
 +-----------+-------+---------+-----------+
 
 
@@ -92,6 +89,6 @@ Messages
 
 
 
--------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 8.08/10, +1.92)
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 

@@ -25,6 +25,10 @@ External dependencies
 ---------------------
 ::
 
+    ppklib 
+      \-libs 
+        \-config (ppklib.objects.osvapiobject)
+        \-utilities (ppklib.objects.osvapiobject)
     requests (ppklib.objects.osvapiobject)
     utils4 
       \-user_interface (ppklib.objects.osvapiobject)

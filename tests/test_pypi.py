@@ -15,12 +15,13 @@
 
 import contextlib
 import inspect
+import math
 import os
 try:
-    from .base import TestBase
+    from .base import TestBase, _DEVMODE
     from .testlibs import msgs
 except ImportError:
-    from base import TestBase
+    from base import TestBase, _DEVMODE
     from testlibs import msgs
 # locals
 from ppklib.pypi import PyPIQuery
@@ -71,13 +72,12 @@ class TestPyPI(TestBase):
             - Verify all of the metadata repr's show 'Metadata (release).
 
         """
-        #
-        # !!!: Can be adjusted for faster tests.
-        #
         step = 1  # Must be 1 on final tests. Can change to 50 for a fast test.
-        if step != 1:
-            print(f'\n\n[WARNING]: Step is set to {step}. This must be one (1) before releasing.\n'
-                  '-- Expect this test to fail.')
+        expcount = 273
+        if _DEVMODE:
+            step = 50
+            expcount = math.ceil(expcount/step)
+            print(f'\n\n[WARNING]: Step is set to {step}. This must be one (1) before releasing.')
         m = []
         with open(os.path.join(self._DIR_RESC, 'repo.txt'), encoding='utf-8') as f:
             files = [line.strip() for line in f][::step]
@@ -89,5 +89,5 @@ class TestPyPI(TestBase):
             m.append(PyPIQuery.metadata(wheel=f))
         tst1 = len(m)
         tst2 = all(map(lambda x: 'Metadata (release)' in repr(x), m))
-        self.assertEqual(273, tst1)
+        self.assertEqual(expcount, tst1)
         self.assertTrue(tst2)

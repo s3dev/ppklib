@@ -61,8 +61,8 @@ import traceback
 from utils4.user_interface import ui
 # locals
 try:  # nocover
-    from .libs.config import systemcfg as syscfg
-    from .libs.utilities import utilities as ppkutils
+    from ..libs.config import systemcfg as syscfg
+    from ..libs.utilities import utilities as ppkutils
 except ImportError:
     from libs.config import systemcfg as syscfg
     from libs.utilities import utilities as ppkutils

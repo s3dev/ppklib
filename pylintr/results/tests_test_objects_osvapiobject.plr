@@ -25,12 +25,9 @@ External dependencies
 ---------------------
 ::
 
-    base (test_objects_osvapiobject)
     ppklib 
       \-objects 
-        \-osvapiobject (test_objects_osvapiobject)
-    testlibs 
-      \-msgs (test_objects_osvapiobject)
+        \-osvapiobject (tests.test_objects_osvapiobject)
 
 
 

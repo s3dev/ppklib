@@ -12,17 +12,17 @@
 """
 # pylint: disable=import-error
 
+import contextlib
+import inspect
+import io
+import os
+from glob import glob
 try:
     from .base import TestBase
     from .testlibs import msgs
 except ImportError:
     from base import TestBase
     from testlibs import msgs
-import contextlib
-import inspect
-import io
-import os
-from glob import glob
 # locals
 from ppklib.vtests import VTests
 

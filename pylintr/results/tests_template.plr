@@ -21,16 +21,6 @@ Statistics by type
 
 
 
-External dependencies
----------------------
-::
-
-    base (template)
-    testlibs 
-      \-msgs (template)
-
-
-
 58 lines have been analyzed
 
 Raw metrics

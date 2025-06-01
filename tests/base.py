@@ -34,12 +34,24 @@
 """
 # pylint: disable=wrong-import-position
 
-import io
+# Set path for relative imports.
 import os
-import pickle
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+import io
+import pickle
 import unittest
+# locals
+try:
+    from .testlibs import msgs
+except ImportError:
+    from testlibs import msgs
+
+# Must be False for production builds.
+_DEVMODE = False
+
+if _DEVMODE:
+    msgs.msgs.print_devmode()
 
 
 class TestBase(unittest.TestCase):
@@ -81,7 +93,7 @@ class TestBase(unittest.TestCase):
                 are named after their test method.
 
         Returns:
-            object: The object contained in teh serialised file.
+            object: The object contained in the serialised file.
 
         """
         path = os.path.join(self._DIR_RESC, f'{method}.p')

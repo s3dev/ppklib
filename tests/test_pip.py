@@ -12,16 +12,16 @@
 """
 # pylint: disable=import-error
 
+import contextlib
+import io
+import os
+import shutil
 try:
     from .base import TestBase
     from .testlibs import msgs
 except ImportError:
     from base import TestBase
     from testlibs import msgs
-import contextlib
-import io
-import os
-import shutil
 # locals
 from ppklib.pip import Download
 

@@ -25,12 +25,9 @@ External dependencies
 ---------------------
 ::
 
-    base (test_objects_pypiapiobject)
     ppklib 
       \-objects 
-        \-pypiapiobject (test_objects_pypiapiobject)
-    testlibs 
-      \-msgs (test_objects_pypiapiobject)
+        \-pypiapiobject (tests.test_objects_pypiapiobject)
 
 
 

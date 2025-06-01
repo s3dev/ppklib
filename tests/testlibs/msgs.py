@@ -87,6 +87,15 @@ class _Messages:
         """Accesso for error messages."""
         return _Errors()
 
+    @staticmethod
+    def print_devmode():
+        """Print the DEVMODE message."""
+        n = 70
+        print('\n\n', '-' * n, sep='')
+        print('***     DEVMODE IS ACTIVE     ***'.center(n))
+        print('-' * n, '\n', sep='')
+        sleep(0.25)
+
 
 msgs = _Messages()
 startoftest = _StartOfTest()
