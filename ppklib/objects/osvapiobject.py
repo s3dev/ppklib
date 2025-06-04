@@ -73,6 +73,7 @@
 import os
 import requests
 import traceback
+from datetime import datetime as dt
 from utils4.user_interface import ui
 # locals
 try:  # nocover
@@ -272,7 +273,25 @@ class OSVAPIObject:
                     vulns['severity'] = v.get('database_specific').get('severity')
                     if 'severity' in v:
                         vulns['vectors'] = [{s.get('type'): s.get('score')} for s in v['severity']]
+                    else:  # nocover
+                        vulns['vectors'] = []  # Ensure a 'vectors' key exists.
+                    # Object conversion
+                    vulns['published'] = dt.fromisoformat(vulns['published'])
+                    vulns['modified'] = dt.fromisoformat(vulns['modified'])
+                    # Key name changes
+                    vulns['vid'] = vulns.pop('id')
                 self._vulns.append(vulns)
+        # Further post-processing (flattening)
+        for v in self._vulns:
+            v['aliases_str'] = ','.join(v['aliases'])
+            v['vector_cvss_v3'] = None
+            v['vector_cvss_v4'] = None
+            for vector in v.get('vectors'):
+                match vector:
+                    case _ if 'CVSS_V3' in vector:
+                        v['vector_cvss_v3'] = vector['CVSS_V3']
+                    case _ if 'CVSS_V4' in vector:
+                        v['vector_cvss_v4'] = vector['CVSS_V4']
 
     # TODO: Move this to a generalised API class/module.
     #       Note this is a POST request whereas the PyPI API is a GET

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ppklib.objects.osvapiobject &mdash; ppklib - v0.2.0rc2 Documentation</title>
+  <title>ppklib.objects.osvapiobject &mdash; ppklib - v0.2.0rc3 Documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=3d736463"></script>
+      <script src="../../../_static/documentation_options.js?v=59bcb427"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -150,6 +150,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
 <span class="kn">from</span> <span class="nn">utils4.user_interface</span> <span class="kn">import</span> <span class="n">ui</span>
 <span class="c1"># locals</span>
 <span class="k">try</span><span class="p">:</span>  <span class="c1"># nocover</span>
@@ -362,7 +363,25 @@
                     <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;severity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;database_specific&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity&#39;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="s1">&#39;severity&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
                         <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;vectors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">):</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">)}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;severity&#39;</span><span class="p">]]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vulns</span><span class="p">)</span></div>
+                    <span class="k">else</span><span class="p">:</span>  <span class="c1"># nocover</span>
+                        <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;vectors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Ensure a &#39;vectors&#39; key exists.</span>
+                    <span class="c1"># Object conversion</span>
+                    <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;published&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;published&#39;</span><span class="p">])</span>
+                    <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;modified&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;modified&#39;</span><span class="p">])</span>
+                    <span class="c1"># Key name changes</span>
+                    <span class="n">vulns</span><span class="p">[</span><span class="s1">&#39;vid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vulns</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vulns</span><span class="p">)</span>
+        <span class="c1"># Further post-processing (flattening)</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vulns</span><span class="p">:</span>
+            <span class="n">v</span><span class="p">[</span><span class="s1">&#39;aliases_str&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;aliases&#39;</span><span class="p">])</span>
+            <span class="n">v</span><span class="p">[</span><span class="s1">&#39;vector_cvss_v3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">v</span><span class="p">[</span><span class="s1">&#39;vector_cvss_v4&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vectors&#39;</span><span class="p">):</span>
+                <span class="k">match</span> <span class="n">vector</span><span class="p">:</span>
+                    <span class="k">case</span><span class="w"> </span><span class="k">_</span> <span class="k">if</span> <span class="s1">&#39;CVSS_V3&#39;</span> <span class="ow">in</span> <span class="n">vector</span><span class="p">:</span>
+                        <span class="n">v</span><span class="p">[</span><span class="s1">&#39;vector_cvss_v3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector</span><span class="p">[</span><span class="s1">&#39;CVSS_V3&#39;</span><span class="p">]</span>
+                    <span class="k">case</span><span class="w"> </span><span class="k">_</span> <span class="k">if</span> <span class="s1">&#39;CVSS_V4&#39;</span> <span class="ow">in</span> <span class="n">vector</span><span class="p">:</span>
+                        <span class="n">v</span><span class="p">[</span><span class="s1">&#39;vector_cvss_v4&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector</span><span class="p">[</span><span class="s1">&#39;CVSS_V4&#39;</span><span class="p">]</span></div>
 
 
     <span class="c1"># TODO: Move this to a generalised API class/module.</span>
@@ -433,7 +452,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.2.0rc2.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.2.0rc3.</p>
   </div>
 
    

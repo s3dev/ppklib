@@ -58,6 +58,7 @@
 import os
 import requests
 import traceback
+from datetime import datetime as dt
 from utils4.user_interface import ui
 # locals
 try:  # nocover
@@ -261,6 +262,9 @@ class PyPIAPIObject:
                     data = {k: r[k] for k in keys}
                     break  # Can only refer to a single wheel. Once found, get out.
             data['vulnerabilities'] = self._rawjson['vulnerabilities']
+            # A TypeError is thrown if the fromisoformat arg is not a str.
+            if (upload := data.get('upload_time_iso_8601')) and isinstance(upload, str):
+                data['upload_time_iso_8601'] = dt.fromisoformat(upload)
         self._data.update(data)
 
     def _extract_project_metadata(self) -> None:
