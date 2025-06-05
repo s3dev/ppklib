@@ -48,7 +48,7 @@ except ImportError:
     from testlibs import msgs
 
 # Must be False for production builds.
-_DEVMODE = False
+_DEVMODE = True
 
 if _DEVMODE:
     msgs.msgs.print_devmode()

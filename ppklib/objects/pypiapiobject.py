@@ -317,7 +317,7 @@ class PyPIAPIObject:
 
         """
         req = self._build_request()
-        resp = requests.get(**req, timeout=3)
+        resp = requests.get(**req, timeout=syscfg['api']['timeout'])
         self._status_code = resp.status_code
         if resp.status_code == 200:
             self._rawjson = resp.json()

@@ -150,7 +150,7 @@ class TestVTests(TestBase):
 
         """
         buf = io.StringIO()
-        exp1 = (False, 0, 1, 5, 0)
+        exp1 = (False, 0, 1, 3, 0)
         exp2 = ''
         with contextlib.redirect_stdout(buf):
             tst1 = VTests.osv(name='numpy', version='1.16.3', verbose=False)
@@ -169,7 +169,7 @@ class TestVTests(TestBase):
         """
         me = inspect.stack()[0].function
         buf = io.StringIO()
-        exp1 = (False, 0, 1, 5, 0)
+        exp1 = (False, 0, 1, 3, 0)
         with open(os.path.join(self._DIR_RESC, f'{me}.txt'), encoding='utf-8') as f:
             exp2 = f.read()
         with contextlib.redirect_stdout(buf):
@@ -188,7 +188,7 @@ class TestVTests(TestBase):
         """
         me = inspect.stack()[0].function
         buf = io.StringIO()
-        exp1 = (False, 1, 6, 3, 0)
+        exp1 = (False, 1, 2, 3, 0)
         with open(os.path.join(self._DIR_RESC, f'{me}.txt'), encoding='utf-8') as f:
             exp2 = f.read()
         with contextlib.redirect_stdout(buf):

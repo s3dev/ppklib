@@ -251,7 +251,7 @@ class TestOSVAPIObject(TestBase):
 
         """
         me = inspect.stack()[0].function
-        # This release has 10 reported vulnerabilities.
+        # This release has 6 reported vulnerabilities.
         w = 'numpy-1.13.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'
         oapi = OSVAPIObject(wheel=w)
         oapi.get_and_filter()

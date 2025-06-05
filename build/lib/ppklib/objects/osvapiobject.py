@@ -266,8 +266,13 @@ class OSVAPIObject:
         """
         if self._rawjson:
             for v in self._rawjson['vulns']:
-                if 'database_specific' in v:
-                    vulns = {}
+                vulns = {}
+                vulns['fixed'] = None
+                vulns['introduced'] = None
+                vulns['last_affected'] = None
+                # GitHub Advisory Database
+                # Currently PYSEC entries are ignored as these reference the GHSA anyways.
+                if v['id'].startswith('GHSA-'):
                     for k in syscfg['api']['osv']['keys']['vulns']:
                         vulns[k] = v.get(k)
                     vulns['severity'] = v.get('database_specific').get('severity')
@@ -280,7 +285,16 @@ class OSVAPIObject:
                     vulns['modified'] = dt.fromisoformat(vulns['modified'])
                     # Key name changes
                     vulns['vid'] = vulns.pop('id')
-                self._vulns.append(vulns)
+                    # Get vulnerability-fixed version.
+                    for event in v['affected'][0]['ranges'][0]['events']:
+                        match event:
+                            case _ if 'fixed' in event:
+                                vulns['fixed'] = event['fixed']
+                            case _ if 'introduced' in event:
+                                vulns['introduced'] = event['introduced']
+                            case _ if 'last_affected' in event:
+                                vulns['last_affected'] = event['last_affected']
+                    self._vulns.append(vulns)
         # Further post-processing (flattening)
         for v in self._vulns:
             v['aliases_str'] = ','.join(v['aliases'])
@@ -308,7 +322,7 @@ class OSVAPIObject:
 
         """
         req = self._build_request()
-        resp = requests.post(**req, timeout=3)
+        resp = requests.post(**req, timeout=syscfg['api']['timeout'])
         self._status_code = resp.status_code
         if resp.status_code == 200:
             self._rawjson = resp.json()

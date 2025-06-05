@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: ppklib
-Version: 0.2.0rc3
+Version: 0.2.0rc4
 Summary: The core functionality library for the ppk project.
 Author-email: The Developers <development@s3dev.uk>
 License-Expression: GPL-3.0-or-later
