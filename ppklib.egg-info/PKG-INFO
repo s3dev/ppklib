@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: ppklib
-Version: 0.2.0rc4
+Version: 0.2.0
 Summary: The core functionality library for the ppk project.
 Author-email: The Developers <development@s3dev.uk>
 License-Expression: GPL-3.0-or-later
@@ -9,7 +9,7 @@ Project-URL: Homepage, https://github.com/s3dev/ppklib
 Project-URL: Repository, https://github.com/s3dev/ppklib
 Keywords: library,security,utility,utilities
 Classifier: Environment :: Console
-Classifier: Development Status :: 4 - Beta
+Classifier: Development Status :: 5 - Production/Stable
 Classifier: Intended Audience :: Developers
 Classifier: Operating System :: POSIX :: Linux
 Classifier: Operating System :: Microsoft :: Windows
