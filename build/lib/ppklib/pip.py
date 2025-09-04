@@ -174,6 +174,7 @@ class Download:
         and a force cleanup is performed.
 
         """
+        # pylint: disable=too-many-branches
         report_and_exit = False  # Escape if the pip error thrown is not expected.
         # Use the package name as passed into the CLI, as this *might* contain
         # a specific version to be downloaded.
@@ -188,6 +189,8 @@ class Download:
             cmd.extend([pkg])
         if not self._args.get('use_local'):
             cmd.extend(['-i', 'https://pypi.org/simple/'])
+        if self._args.get('no_cache'):
+            cmd.extend(['--no-cache'])
         if self._args.get('platform'):
             cmd.extend(['--platform', self._args['platform']])
         if self._args.get('python_version'):

@@ -47,6 +47,9 @@ class TestPyPI(TestBase):
         me = inspect.stack()[0].function
         meta = PyPIQuery.metadata(name='utils4', version='1.5.0')
         exp = self.read_data(method=me)
+        # The latest version will change -->
+        meta.data.pop('latest_version')
+        exp.pop('latest_version')
         self.assertEqual(exp, meta.data)
 
     def test01b__metadata__invalid(self):

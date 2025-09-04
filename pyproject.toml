@@ -24,7 +24,6 @@ classifiers = [
                "Topic :: Utilities",
               ]
 dependencies = [
-                "beautifulsoup4",
                 "requests>=2.32.2",     # Per Snyk
                 "setuptools>=70.0.0",   # Per Snyk
                 "utils4>=1.5.0",

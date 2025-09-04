@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ppklib.pip &mdash; ppklib - v0.2.0 Documentation</title>
+  <title>ppklib.pip &mdash; ppklib - v0.3.0 Documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=1be0d999"></script>
+      <script src="../../_static/documentation_options.js?v=0926e583"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -264,6 +264,7 @@
 <span class="sd">        and a force cleanup is performed.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=too-many-branches</span>
         <span class="n">report_and_exit</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Escape if the pip error thrown is not expected.</span>
         <span class="c1"># Use the package name as passed into the CLI, as this *might* contain</span>
         <span class="c1"># a specific version to be downloaded.</span>
@@ -278,6 +279,8 @@
             <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">pkg</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;use_local&#39;</span><span class="p">):</span>
             <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;https://pypi.org/simple/&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;no_cache&#39;</span><span class="p">):</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;--no-cache&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;platform&#39;</span><span class="p">):</span>
             <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;--platform&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">[</span><span class="s1">&#39;platform&#39;</span><span class="p">]])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;python_version&#39;</span><span class="p">):</span>
@@ -418,7 +421,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.2.0.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.3.0.</p>
   </div>
 
    

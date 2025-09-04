@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Change Log &mdash; ppklib - v0.2.0 Documentation</title>
+  <title>Change Log &mdash; ppklib - v0.3.0 Documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1be0d999"></script>
+      <script src="_static/documentation_options.js?v=0926e583"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -79,6 +79,26 @@
   <section id="module-ppklib.libs.changelog">
 <span id="change-log"></span><h1>Change Log<a class="headerlink" href="#module-ppklib.libs.changelog" title="Link to this heading"></a></h1>
 <ul>
+<li><p><strong>0.3.0 - Added support for pip’s –no-cache argument. Synk checks disabled.</strong><span> by </span><em>j_berendt</em><span> at </span><em>2025-09-05 00:03:21</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PPK</span><span class="o">-</span><span class="mi">34</span><span class="p">:</span> <span class="n">Add</span> <span class="n">the</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span> <span class="n">argument</span> <span class="n">to</span> <span class="n">the</span> <span class="p">(</span><span class="n">ppk</span><span class="p">)</span> <span class="n">CLI</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">Support</span> <span class="k">for</span> <span class="n">pip</span><span class="s1">&#39;s --no-cache argument has been added to the pip.py module</span>
+  <span class="ow">and</span> <span class="ow">is</span> <span class="n">passed</span> <span class="n">directly</span> <span class="n">into</span> <span class="n">pip</span> <span class="n">subprocess</span> <span class="n">call</span><span class="o">.</span>
+
+<span class="n">Snyk</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">The</span> <span class="n">Snyk</span> <span class="n">vulnerability</span> <span class="n">check</span> <span class="n">functionality</span> <span class="n">has</span> <span class="n">been</span> <span class="n">disabled</span><span class="o">.</span>
+  <span class="o">-</span> <span class="n">The</span> <span class="n">logic</span> <span class="n">was</span> <span class="n">a</span> <span class="n">web</span> <span class="n">scraping</span> <span class="n">tool</span> <span class="n">which</span> <span class="n">was</span> <span class="n">a</span> <span class="n">ticking</span> <span class="n">time</span> <span class="n">bomb</span> <span class="n">just</span>
+    <span class="n">waiting</span> <span class="k">for</span> <span class="n">Snyk</span> <span class="n">to</span> <span class="n">change</span> <span class="n">their</span> <span class="n">page</span> <span class="ow">and</span> <span class="n">vulnerability</span> <span class="nb">list</span> <span class="n">layout</span><span class="p">,</span>
+    <span class="ow">and</span> <span class="n">they</span> <span class="n">have</span><span class="o">.</span>
+  <span class="o">-</span> <span class="n">Snyk</span> <span class="n">checks</span> <span class="n">can</span> <span class="n">be</span> <span class="n">re</span><span class="o">-</span><span class="n">enabled</span> <span class="n">via</span> <span class="n">the</span> <span class="n">API</span> <span class="n">at</span> <span class="n">a</span> <span class="n">later</span> <span class="n">date</span><span class="o">.</span>
+
+<span class="n">Testing</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">All</span> <span class="n">tests</span> <span class="k">pass</span> <span class="n">successfully</span> <span class="k">with</span> <span class="mi">100</span><span class="o">%</span> <span class="n">code</span> <span class="n">coverage</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">All</span> <span class="n">modules</span> <span class="k">pass</span> <span class="n">pylint</span> <span class="n">reporting</span> <span class="mi">10</span><span class="o">/</span><span class="mf">10.</span>
+
+<span class="n">Released</span><span class="p">:</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">21</span>
+</pre></div>
+</div>
+</li>
 <li><p><strong>0.2.0 - Production release for v0.2.0rc4</strong><span> by </span><em>j_berendt</em><span> at </span><em>2025-09-04 23:50:57</em></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Released</span><span class="p">:</span> <span class="mi">2025</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span>
 </pre></div>
@@ -221,7 +241,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.2.0.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.3.0.</p>
   </div>
 
    

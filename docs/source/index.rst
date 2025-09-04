@@ -23,10 +23,6 @@ The following vulnerability tests are available:
  - **MD5 checksum:** The hash of the downloaded file is compared with the hash for the same file, 
    as stored by PyPI.
 
- - **Security vulnerabilities (Snyk):** The `Snyk security database <snyk_seccheck_>`_ can be 
-   searched to determine if any vulnerabilities have been discovered and reported in the specific 
-   library.
-
  - **Security vulnerabilities (PyPA):** The `PyPA  advisory database <pypa_seccheck_>`_ can be 
    searched (via the `PyPI JSON API <pypi_jsonapi_>`_) to determine if any 
    `vulnerabilities <pypi_knownvuln_>`_ have been discovered and reported in the specific library.
@@ -146,7 +142,6 @@ Indices and Tables
 .. _pypa_seccheck: https://github.com/pypa/advisory-database
 .. _pypi_jsonapi: https://docs.pypi.org/api/json/
 .. _pypi_knownvuln: https://docs.pypi.org/api/json/#known-vulnerabilities
-.. _snyk_seccheck: https://security.snyk.io/
 
 
 |lastupdated|

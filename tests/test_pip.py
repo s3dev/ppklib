@@ -161,3 +161,23 @@ class TestDownload(TestBase):
         self.assertFalse(tst2)
         self.assertIn('ERROR: Could not find a version that satisfies the requirement', tst3)
         self.assertIn('Modifying the requirements file and trying again', tst3)
+
+    def test01g__get__no_cache(self):
+        """Test the ``get`` method using the --no_cache argument..
+
+        Note:
+            As pip's stdout cannot be captured and tested if the
+            subprocess is downloading or using the cache, we're testing
+            the ``_args`` attribute of the ``Download`` class, as this is
+            directly used when constructing the pip command.
+
+        :Test:
+            - Perform a download using the --no_cache argument.
+
+        """
+        # pylint: disable=protected-access
+        d1 = Download('preqs', args={'no_cache': False})
+        d2 = Download('preqs', args={'no_cache': True})
+        d2.get()  # Run the line so it's tested in coverage.
+        self.assertFalse(d1._args.get('no_cache'))
+        self.assertTrue(d2._args.get('no_cache'))

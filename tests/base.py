@@ -47,7 +47,13 @@ try:
 except ImportError:
     from testlibs import msgs
 
+#
 # Must be False for production builds.
+#
+# What this flag does:
+#   - Sets the step when iterating over the wheels in repo.txt to shorten
+#     the test run.
+#
 _DEVMODE = True
 
 if _DEVMODE:

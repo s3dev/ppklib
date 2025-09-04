@@ -22,7 +22,6 @@ As of `ppk` version 0.6.0, the core functionality has been moved out of `ppk` in
 
 The following vulnerability tests are available:
  - **MD5 checksum:** The hash of the downloaded file is compared with the hash for the same file, as stored by PyPI.
- - **Security vulnerabilities (Snyk):** The [Snyk security database](https://security.snyk.io/) can be searched to determine if any vulnerabilities have been discovered and reported in the specific library.
  - **Security vulnerabilities (PyPA):** The [PyPA  advisory database](https://github.com/pypa/advisory-database) can be searched (via the [PyPI JSON API](https://docs.pypi.org/api/json/)) to determine if any [vulnerabilities](https://docs.pypi.org/api/json/#known-vulnerabilities) have been discovered and reported for a specific library.
  - **Security vulnerabilities (OSV):** The [Open Source Vulnerabilities](https://osv.dev/) database can be searched (via the [OSV API](https://google.github.io/osv.dev/api/)) to determine if any vulnerabilities have been discovered and reported for a specific library.
  - **Code scanning:** Integration coming soon, via the [`badsnakes`](https://pypi.org/project/badsnakes/) project.

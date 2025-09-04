@@ -202,6 +202,9 @@ class TestPyPIAPIObject(TestBase):
         papi = PyPIAPIObject(name='utils4')
         papi.get_and_filter()
         exp = self.read_data(method=me)
+        # The latest version will change -->
+        papi.data.pop('latest_version')
+        exp.pop('latest_version')
         self.assertEqual(papi.data, exp)
 
     def test03b__get_and_filter__wheel(self):
@@ -216,6 +219,9 @@ class TestPyPIAPIObject(TestBase):
         papi = PyPIAPIObject(wheel='utils4-1.5.0-cp312-cp312-win_amd64.whl')
         papi.get_and_filter()
         exp = self.read_data(method=me)
+        # The latest version will change -->
+        papi.data.pop('latest_version')
+        exp.pop('latest_version')
         self.assertEqual(papi.data, exp)
 
     def test03c__get_and_filter__name_version(self):
@@ -231,6 +237,9 @@ class TestPyPIAPIObject(TestBase):
         papi = PyPIAPIObject(name='utils4', version='1.5.0')
         papi.get_and_filter()
         exp = self.read_data(method=me)
+        # The latest version will change -->
+        papi.data.pop('latest_version')
+        exp.pop('latest_version')
         self.assertEqual(papi.data, exp)
 
     def test03d__get_and_filter__vulns(self):

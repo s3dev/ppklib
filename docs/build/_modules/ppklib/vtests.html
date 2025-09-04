@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ppklib.vtests &mdash; ppklib - v0.2.0 Documentation</title>
+  <title>ppklib.vtests &mdash; ppklib - v0.3.0 Documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=1be0d999"></script>
+      <script src="../../_static/documentation_options.js?v=0926e583"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -85,7 +85,6 @@
 
 <span class="sd">                - MD5 checksum verification</span>
 <span class="sd">                - OSV security vulnerability checks</span>
-<span class="sd">                - Snyk security vulnerability checks</span>
 
 <span class="sd">:Platform:  Linux/Windows | Python 3.6+</span>
 <span class="sd">:Developer: J Berendt</span>
@@ -101,8 +100,8 @@
 <span class="c1"># pylint: disable=import-error</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="c1"># import requests</span>
+<span class="c1"># from bs4 import BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">utils4.crypto</span> <span class="kn">import</span> <span class="n">crypto</span>
 <span class="c1"># locals</span>
 <span class="k">try</span><span class="p">:</span>
@@ -124,7 +123,6 @@
 
 <span class="sd">            - :meth:`md5`</span>
 <span class="sd">            - :meth:`osv`</span>
-<span class="sd">            - :meth:`snyk`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -273,139 +271,141 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">oquery</span><span class="o">.</span><span class="n">vulns</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> v</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s1"> has no reported direct vulnerabilities, per OSV&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">counts</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="o">*</span><span class="n">counts</span><span class="p">)</span>  <span class="c1"># Pass --&gt; No C(ritical) or H(igh) vulnerabilities.</span></div>
-
-
-<div class="viewcode-block" id="VTests.snyk">
-<a class="viewcode-back" href="../../vtests.html#ppklib.vtests.VTests.snyk">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">snyk</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Use Snyk.io to test for reported vulnerabilities.</span>
-
-<span class="sd">        If a package has reported direct vulnerabilities, these are</span>
-<span class="sd">        captured and reported to the terminal at the end of processing.</span>
-
-<span class="sd">        A package is considered &#39;passing&#39; if no &#39;Critical&#39; and &#39;High&#39;</span>
-<span class="sd">        vulnerabilities have been reported.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): Package name.</span>
-<span class="sd">            version (str): Package version to be tested.</span>
-<span class="sd">            verbose (bool, optional): Print all reported vulnerabilities to</span>
-<span class="sd">                the terminal on test completion. Defaults to True.</span>
-
-<span class="sd">        :Keyword Arguments:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        :Examples:</span>
-
-<span class="sd">            Check the Snyk vulnerability database for any reported</span>
-<span class="sd">            vulnerabilities::</span>
-
-<span class="sd">                &gt;&gt;&gt; from ppklib.vtests import VTests</span>
-
-<span class="sd">                &gt;&gt;&gt; tst = VTests.snyk(name=&#39;utils4&#39;,</span>
-<span class="sd">                                      version=&#39;1.5.0&#39;,</span>
-<span class="sd">                                      verbose=False)</span>
-
-<span class="sd">                utils4 v1.5.0 has no reported direct vulnerabilities.</span>
-
-<span class="sd">                # Check the result of the test.</span>
-<span class="sd">                &gt;&gt;&gt; tst</span>
-<span class="sd">                (True, 0, 0, 0, 0)</span>
-
-
-<span class="sd">            Check the Snyk vulnerability database for any reported</span>
-<span class="sd">            vulnerabilities, for a library *with* vulnerabilities::</span>
-
-<span class="sd">                &gt;&gt;&gt; from ppklib.vtests import VTests</span>
-
-<span class="sd">                &gt;&gt;&gt; tst = VTests.snyk(name=&#39;numpy&#39;,</span>
-<span class="sd">                                      version=&#39;1.13.1&#39;,</span>
-<span class="sd">                                      verbose=True)</span>
-
-<span class="sd">                numpy v1.13.1 has the following reported direct vulnerabilities:</span>
-
-<span class="sd">                Severity  Title                                   Versions</span>
-<span class="sd">                --------  -----                                   --------</span>
-<span class="sd">                L         Buffer Overflow                         [,1.21.0rc1)</span>
-<span class="sd">                L         Denial of Service (DoS)                 [,1.22.0rc1)</span>
-<span class="sd">                H         Denial of Service (DoS)                 [,1.13.3)</span>
-<span class="sd">                L         NULL Pointer Dereference                [0,1.22.2)</span>
-<span class="sd">                C         Arbitrary Code Execution                [0,1.16.3)</span>
-<span class="sd">                L         Buffer Overflow                         [,1.22.0)</span>
-
-<span class="sd">                # Check the result of the test.</span>
-<span class="sd">                &gt;&gt;&gt; tst</span>
-<span class="sd">                (False, 1, 1, 0, 4)</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            tuple: A tuple containing the verification flag, and</span>
-<span class="sd">            supporting data.</span>
-
-<span class="sd">            True if there are no reported &#39;Critical&#39; or &#39;High&#39;</span>
-<span class="sd">            vulnerabilities, otherwise False. The trailing elements are</span>
-<span class="sd">            the number of vulnerabilities found in each category, of</span>
-<span class="sd">            descending severity (i.e. C, H, M, L).</span>
-
-<span class="sd">            If the ``verbose`` flag is ``True``, the known</span>
-<span class="sd">            vulnerabilities are reported to the terminal on test</span>
-<span class="sd">            completion.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># pylint: disable=line-too-long</span>
-        <span class="c1"># pylint: disable=too-many-locals</span>
-        <span class="c1"># Force failure -- DEV ONLY.</span>
-        <span class="c1"># name = &#39;numpy&#39;</span>
-        <span class="c1"># version = &#39;1.8.0&#39;</span>
-        <span class="c1"># --|</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://security.snyk.io/package/pip/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
-            <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
-        <span class="c1"># Find the table and rows.</span>
-        <span class="n">div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;package-versions-table__table&#39;</span><span class="p">})</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="n">div</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;table__row&#39;</span><span class="p">})</span>  <span class="c1"># Changed in v0.3.0</span>
-        <span class="c1"># Skip header row.</span>
-        <span class="n">rows</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="c1"># Initialise the direct vulnerabilities set.</span>
-        <span class="n">dvset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="n">vuln_n</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-            <span class="c1"># Search for specific version.</span>
-            <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">version</span><span class="p">):</span>
-                <span class="n">td</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">td</span><span class="p">:</span>
-                    <span class="c1"># Extract relevent values.</span>
-                    <span class="n">vuln_n</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> <span class="n">td</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">)))</span>  <span class="c1"># Changed in ppk v0.3.0</span>
-                    <span class="c1"># If any direct vulnerabilities are found, report them.</span>
-                    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">vuln_n</span><span class="p">):</span>
-                        <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
-                            <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;html.parser&#39;</span><span class="p">)</span>
-                        <span class="c1"># soup = soupv  # Read from file -- DEV ONLY.</span>
-                        <span class="n">div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;vulns-table__wrapper&#39;</span><span class="p">})</span>
-                        <span class="n">rows</span> <span class="o">=</span> <span class="n">div</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;table__row&#39;</span><span class="p">})</span>  <span class="c1"># Changed in ppk v0.3.0</span>
-                        <span class="n">rows</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Skip header row.</span>
-                        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-                            <span class="n">vlabel</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;abbr&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;severity__text&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># Changed in v0.3.0</span>
-                            <span class="n">vtitle</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                            <span class="n">vvers</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;vulnerable-versions&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                            <span class="n">dvset</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">vlabel</span><span class="p">,</span> <span class="n">vtitle</span><span class="p">,</span> <span class="n">vvers</span><span class="p">))</span>
-                <span class="k">break</span>  <span class="c1"># Stop after version is found.</span>
-        <span class="c1"># End of processing summary.</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="n">dvset</span><span class="p">:</span>
-            <span class="n">tmpl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:10}{:39}</span><span class="s1"> </span><span class="si">{:25}</span><span class="s1">&#39;</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> v</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s1"> has the following reported direct vulnerabilities, per Snyk:&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;&#39;</span><span class="p">,</span>
-                  <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Severity&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Versions&#39;</span><span class="p">),</span>
-                  <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;--------&#39;</span><span class="p">,</span> <span class="s1">&#39;-----&#39;</span><span class="p">,</span> <span class="s1">&#39;--------&#39;</span><span class="p">),</span>
-                  <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dvset</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">))</span>
-            <span class="nb">print</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">vuln_n</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> v</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s1"> has no reported direct vulnerabilities, per Snyk&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">vuln_n</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="o">*</span><span class="n">vuln_n</span><span class="p">)</span>  <span class="c1"># Pass --&gt; No C(ritical) or H(igh) vulnerabilities.</span></div>
 </div>
 
+
+    <span class="c1">#</span>
+    <span class="c1"># !!!: Removed in v0.3.0 due to site/page layout changes.</span>
+    <span class="c1">#      This method wasn&#39;t robust and was a ticking timebomb. BOOM</span>
+    <span class="c1">#</span>
+    <span class="c1"># @staticmethod</span>
+    <span class="c1"># def snyk(name: str, version: str, verbose: bool=True, **kwargs) -&gt; tuple:</span>
+    <span class="c1">#     &quot;&quot;&quot;Use Snyk.io to test for reported vulnerabilities.</span>
+
+    <span class="c1">#     If a package has reported direct vulnerabilities, these are</span>
+    <span class="c1">#     captured and reported to the terminal at the end of processing.</span>
+
+    <span class="c1">#     A package is considered &#39;passing&#39; if no &#39;Critical&#39; and &#39;High&#39;</span>
+    <span class="c1">#     vulnerabilities have been reported.</span>
+
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         name (str): Package name.</span>
+    <span class="c1">#         version (str): Package version to be tested.</span>
+    <span class="c1">#         verbose (bool, optional): Print all reported vulnerabilities to</span>
+    <span class="c1">#             the terminal on test completion. Defaults to True.</span>
+
+    <span class="c1">#     :Keyword Arguments:</span>
+    <span class="c1">#         None</span>
+
+    <span class="c1">#     :Examples:</span>
+
+    <span class="c1">#         Check the Snyk vulnerability database for any reported</span>
+    <span class="c1">#         vulnerabilities::</span>
+
+    <span class="c1">#             &gt;&gt;&gt; from ppklib.vtests import VTests</span>
+
+    <span class="c1">#             &gt;&gt;&gt; tst = VTests.snyk(name=&#39;utils4&#39;,</span>
+    <span class="c1">#                                   version=&#39;1.5.0&#39;,</span>
+    <span class="c1">#                                   verbose=False)</span>
+
+    <span class="c1">#             utils4 v1.5.0 has no reported direct vulnerabilities.</span>
+
+    <span class="c1">#             # Check the result of the test.</span>
+    <span class="c1">#             &gt;&gt;&gt; tst</span>
+    <span class="c1">#             (True, 0, 0, 0, 0)</span>
+
+
+    <span class="c1">#         Check the Snyk vulnerability database for any reported</span>
+    <span class="c1">#         vulnerabilities, for a library *with* vulnerabilities::</span>
+
+    <span class="c1">#             &gt;&gt;&gt; from ppklib.vtests import VTests</span>
+
+    <span class="c1">#             &gt;&gt;&gt; tst = VTests.snyk(name=&#39;numpy&#39;,</span>
+    <span class="c1">#                                   version=&#39;1.13.1&#39;,</span>
+    <span class="c1">#                                   verbose=True)</span>
+
+    <span class="c1">#             numpy v1.13.1 has the following reported direct vulnerabilities:</span>
+
+    <span class="c1">#             Severity  Title                                   Versions</span>
+    <span class="c1">#             --------  -----                                   --------</span>
+    <span class="c1">#             L         Buffer Overflow                         [,1.21.0rc1)</span>
+    <span class="c1">#             L         Denial of Service (DoS)                 [,1.22.0rc1)</span>
+    <span class="c1">#             H         Denial of Service (DoS)                 [,1.13.3)</span>
+    <span class="c1">#             L         NULL Pointer Dereference                [0,1.22.2)</span>
+    <span class="c1">#             C         Arbitrary Code Execution                [0,1.16.3)</span>
+    <span class="c1">#             L         Buffer Overflow                         [,1.22.0)</span>
+
+    <span class="c1">#             # Check the result of the test.</span>
+    <span class="c1">#             &gt;&gt;&gt; tst</span>
+    <span class="c1">#             (False, 1, 1, 0, 4)</span>
+
+    <span class="c1">#     Returns:</span>
+    <span class="c1">#         tuple: A tuple containing the verification flag, and</span>
+    <span class="c1">#         supporting data.</span>
+
+    <span class="c1">#         True if there are no reported &#39;Critical&#39; or &#39;High&#39;</span>
+    <span class="c1">#         vulnerabilities, otherwise False. The trailing elements are</span>
+    <span class="c1">#         the number of vulnerabilities found in each category, of</span>
+    <span class="c1">#         descending severity (i.e. C, H, M, L).</span>
+
+    <span class="c1">#         If the ``verbose`` flag is ``True``, the known</span>
+    <span class="c1">#         vulnerabilities are reported to the terminal on test</span>
+    <span class="c1">#         completion.</span>
+
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     # pylint: disable=line-too-long</span>
+    <span class="c1">#     # pylint: disable=too-many-locals</span>
+    <span class="c1">#     # Force failure -- DEV ONLY.</span>
+    <span class="c1">#     # name = &#39;numpy&#39;</span>
+    <span class="c1">#     # version = &#39;1.8.0&#39;</span>
+    <span class="c1">#     # --|</span>
+    <span class="c1">#     url = f&#39;https://security.snyk.io/package/pip/{name}&#39;</span>
+    <span class="c1">#     with requests.get(url, timeout=3) as r:</span>
+    <span class="c1">#         soup = BeautifulSoup(r.text, &#39;html.parser&#39;)</span>
+    <span class="c1">#     # Find the table and rows.</span>
+    <span class="c1">#     div = soup.find(&#39;div&#39;, attrs={&#39;class&#39;: &#39;package-versions-table__table&#39;})</span>
+    <span class="c1">#     rows = div.find_all(&#39;tr&#39;, attrs={&#39;class&#39;: &#39;table__row&#39;})  # Changed in v0.3.0</span>
+    <span class="c1">#     # Skip header row.</span>
+    <span class="c1">#     rows.pop(0)</span>
+    <span class="c1">#     # Initialise the direct vulnerabilities set.</span>
+    <span class="c1">#     dvset = set()</span>
+    <span class="c1">#     vuln_n = []</span>
+    <span class="c1">#     for row in rows:</span>
+    <span class="c1">#         # Search for specific version.</span>
+    <span class="c1">#         if row.find(&#39;a&#39;).attrs[&#39;href&#39;].endswith(version):</span>
+    <span class="c1">#             td = row.find_all(&#39;td&#39;)</span>
+    <span class="c1">#             break</span>
+    <span class="c1">#             if td:</span>
+    <span class="c1">#                 # Extract relevent values.</span>
+    <span class="c1">#                 vuln_n = list(map(lambda x: int(x.text), td[2].find_all(&#39;div&#39;)))  # Changed in ppk v0.3.0</span>
+    <span class="c1">#                 # If any direct vulnerabilities are found, report them.</span>
+    <span class="c1">#                 if any(vuln_n):</span>
+    <span class="c1">#                     with requests.get(f&#39;{url}/{version}&#39;, timeout=10) as r:</span>
+    <span class="c1">#                         soup = BeautifulSoup(r.text, &#39;html.parser&#39;)</span>
+    <span class="c1">#                     # soup = soupv  # Read from file -- DEV ONLY.</span>
+    <span class="c1">#                     div = soup.find(&#39;div&#39;, attrs={&#39;class&#39;: &#39;vulns-table__wrapper&#39;})</span>
+    <span class="c1">#                     rows = div.find_all(&#39;tr&#39;, attrs={&#39;class&#39;: &#39;table__row&#39;})  # Changed in ppk v0.3.0</span>
+    <span class="c1">#                     rows.pop(0)  # Skip header row.</span>
+    <span class="c1">#                     for row in rows:</span>
+    <span class="c1">#                         vlabel = row.find(&#39;abbr&#39;, attrs={&#39;class&#39;: &#39;severity__text&#39;}).text.strip()  # Changed in v0.3.0</span>
+    <span class="c1">#                         vtitle = row.find(&#39;a&#39;).text.strip()</span>
+    <span class="c1">#                         vvers = row.find(&#39;div&#39;, attrs={&#39;class&#39;: &#39;vulnerable-versions&#39;}).text.strip()</span>
+    <span class="c1">#                         dvset.add((vlabel, vtitle, vvers))</span>
+    <span class="c1">#             break  # Stop after version is found.</span>
+    <span class="c1">#     # End of processing summary.</span>
+    <span class="c1">#     if verbose and dvset:</span>
+    <span class="c1">#         tmpl = &#39;{:10}{:39} {:25}&#39;</span>
+    <span class="c1">#         print(f&#39;\n{name} v{version} has the following reported direct vulnerabilities, per Snyk:&#39;,</span>
+    <span class="c1">#               &#39;&#39;,</span>
+    <span class="c1">#               tmpl.format(&#39;Severity&#39;, &#39;Title&#39;, &#39;Versions&#39;),</span>
+    <span class="c1">#               tmpl.format(&#39;--------&#39;, &#39;-----&#39;, &#39;--------&#39;),</span>
+    <span class="c1">#               sep=&#39;\n&#39;)</span>
+    <span class="c1">#         for i in dvset:</span>
+    <span class="c1">#             print(tmpl.format(*i))</span>
+    <span class="c1">#         print()</span>
+    <span class="c1">#     if not any(vuln_n):</span>
+    <span class="c1">#         print(f&#39;{name} v{version} has no reported direct vulnerabilities, per Snyk&#39;)</span>
+    <span class="c1">#     return (not any(vuln_n[:2]), *vuln_n)  # Pass --&gt; No C(ritical) or H(igh) vulnerabilities.</span>
 </pre></div>
 
            </div>
@@ -415,7 +415,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 | s3dev | version 0.2.0.</p>
+    <p>&#169; Copyright 2025 | s3dev | version 0.3.0.</p>
   </div>
 
    

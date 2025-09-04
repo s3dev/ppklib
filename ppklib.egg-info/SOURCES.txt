@@ -11,7 +11,6 @@ docs/requirements.txt
 docs/spellcheck.sh
 docs/update.sh
 docs/build/.buildinfo
-docs/build/.buildinfo.bak
 docs/build/contact.html
 docs/build/genindex.html
 docs/build/index.html
@@ -23,6 +22,7 @@ docs/build/objects_osvapiobject.html
 docs/build/objects_pypiapiobject.html
 docs/build/objects_severitycountsobject.html
 docs/build/osv.html
+docs/build/osv.spelling
 docs/build/pip.html
 docs/build/py-modindex.html
 docs/build/pypi.html
